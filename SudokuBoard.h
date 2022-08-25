@@ -15,6 +15,7 @@ public:
     ~SudokuBoard() {}
 
     void print_board();
+    void print_board_with_boarder();
 
     int get_num_rows();
     int get_num_columns();
