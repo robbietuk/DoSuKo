@@ -16,8 +16,8 @@ public:
 
     void print_board();
 
-    int get_size_x();
-    int get_size_y();
+    int get_num_rows();
+    int get_num_columns();
 
     void update_board(int x, int y, int value);
 

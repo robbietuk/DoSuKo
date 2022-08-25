@@ -10,5 +10,6 @@ int main() {
 
   SudokuBoard board(input);
   board.print_board();
+//  board.print_board_with_boarder();
   return 0;
 }

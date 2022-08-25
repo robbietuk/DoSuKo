@@ -17,22 +17,22 @@ SudokuBoard(const std::string &board_config) {
 }
 
 void SudokuBoard::print_board() {
-  for (auto & i : board_array) {
-    for (int j : i) {
-      std::cout << j << " ";
+  for (auto & i : board_array) { // row
+    for (int j : i) { // element [row][col]
+      std::cout << j << "  ";
     }
     std::cout << std::endl;
   }
 }
 
 int SudokuBoard::
-get_size_x() {
-  return sizeof(board_array);
+get_num_rows() {
+  return sizeof(board_array)/sizeof(board_array[0]);
 }
 
 int SudokuBoard::
-get_size_y() {
-  return sizeof(board_array[0]);
+get_num_columns() {
+  return sizeof(board_array[0])/sizeof(board_array[0][0]);
 }
 
 void SudokuBoard::
@@ -40,8 +40,3 @@ update_board(int x, int y, int value) {
   board_array[x][y] = value;
 }
 
-//SudokuBoard::
-//SudokuBoard(const std::string &board_config, int size_x, int size_y) {
-//
-//
-//  }
