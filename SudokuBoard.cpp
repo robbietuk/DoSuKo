@@ -68,8 +68,72 @@ get_num_columns() {
   return sizeof(board_array[0])/sizeof(board_array[0][0]);
 }
 
+bool SudokuBoard::
+do_update_if_valid(int col, int row, int value) {
+  if (is_valid_update(col, row, value)) {
+    board_array[col][row] = value;
+    return true;
+  }
+  return false;
+}
+
 void SudokuBoard::
-update_board(int x, int y, int value) {
-  board_array[x][y] = value;
+do_update(int col, int row, int value) {
+  board_array[col][row] = value;
+}
+
+bool SudokuBoard::
+is_valid_update(int col, int row, int value) {
+
+  if (!this->is_free_position(col, row))
+    return false;
+
+  if (!this->is_value_in_local_box(col, row, value))
+    return false;
+
+  if (!this->is_value_in_local_row(row, value))
+    return false;
+
+  if (!this->is_value_in_local_column(col, value))
+    return false;
+
+  return true;
+}
+
+bool SudokuBoard::
+is_free_position(int col, int row) {
+  return board_array[col][row] == 0;
+}
+
+
+bool SudokuBoard::
+is_value_in_local_box(int col, int row, int value) {
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      int pos_x = (col / 3) * 3 + i; // need to divide (int) by 3 and multiply by 3,
+      int pos_y = (row / 3) * 3 + j; // e.g. (5/3) * 3 = 3
+      if (value == board_array[pos_x][pos_y])
+          return false;
+    }
+  }
+  return true;
+}
+
+bool SudokuBoard::
+is_value_in_local_column(int col, int value) {
+  for (int j = 0; j < this->get_num_rows(); j++) {
+    if (value == board_array[col][j])
+      return false;
+  }
+  return true;
+}
+
+bool SudokuBoard::
+is_value_in_local_row(int row, int value) {
+  for (int i = 0; i < this->get_num_columns(); i++) {
+    if (value == board_array[i][row])
+      return false;
+  }
+  return true;
 }
 

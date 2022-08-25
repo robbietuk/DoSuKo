@@ -20,9 +20,17 @@ public:
     int get_num_rows();
     int get_num_columns();
 
-    void update_board(int x, int y, int value);
+    bool do_update_if_valid(int col, int row, int value);
+    bool is_valid_update(int col, int row, int value);
 
+private:
+    //! Insets the value at the given position in the board. THERE ARE NO ERROR CHECKS.
+    void do_update(int col, int row, int value);
 
+    bool is_free_position(int col, int row);
+    bool is_value_in_local_box(int col, int row, int value);
+    bool is_value_in_local_row(int row, int value);
+    bool is_value_in_local_column(int col, int value);
 
 
 private:

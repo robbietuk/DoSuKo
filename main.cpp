@@ -10,6 +10,15 @@ int main() {
 
   SudokuBoard board(input);
   board.print_board();
-//  board.print_board_with_boarder();
+  //  board.print_board_with_boarder();
+
+  int row = 4;
+  int col = 5;
+
+  for (int value = 1; value < 10; value++) {
+    std::cout << "Value: " << value
+              << " into pos (col,row): (" << col << ", " << row << ") is valid: "
+              << std::to_string(board.is_valid_update(col, row, value)) << std::endl;
+  }
   return 0;
 }
