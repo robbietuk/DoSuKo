@@ -6,11 +6,12 @@
 #include <iostream>
 
 SudokuBoard::
-        SudokuBoard(const std::string &board_config) {
+SudokuBoard(const std::string &board_config) {
   construct_board(board_config);
 }
 
-void SudokuBoard::
+void
+SudokuBoard::
         construct_board(const std::string &board_config) {
   if (board_config.size() != 81) {
     std::string error_message =
@@ -47,8 +48,9 @@ void SudokuBoard::print_board() {
   }
 }
 
-void SudokuBoard::
-        print_board_with_boarder() {
+void
+SudokuBoard::
+print_board_with_boarder() {
 
   // This doesn't x_gap and num_x_character does not work but it is fine for now.
   const int x_gap = 3;
@@ -81,17 +83,20 @@ void SudokuBoard::
   std::cout << output << std::endl;
 }
 
-int SudokuBoard::
+int
+SudokuBoard::
 get_num_rows() {
   return sizeof(board_array)/sizeof(board_array[0]);
 }
 
-int SudokuBoard::
+int
+SudokuBoard::
 get_num_columns() {
   return sizeof(board_array[0])/sizeof(board_array[0][0]);
 }
 
-bool SudokuBoard::
+bool
+SudokuBoard::
 do_update_if_valid(int col, int row, int value) {
   if (is_valid_update(col, row, value)) {
     do_update(col, row, value);
@@ -100,12 +105,14 @@ do_update_if_valid(int col, int row, int value) {
   return false;
 }
 
-void SudokuBoard::
+void
+SudokuBoard::
 do_update(int col, int row, int value) {
   board_array[col][row] = value;
 }
 
-bool SudokuBoard::
+bool
+SudokuBoard::
 is_valid_update(int col, int row, int value) {
 
   assert(value > 0 && value <= 9);
@@ -125,13 +132,15 @@ is_valid_update(int col, int row, int value) {
   return true;
 }
 
-bool SudokuBoard::
+bool
+SudokuBoard::
 is_free_position(int col, int row) {
   return board_array[col][row] == 0;
 }
 
 
-bool SudokuBoard::
+bool
+SudokuBoard::
 is_value_in_local_box(int col, int row, int value) {
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
@@ -144,7 +153,8 @@ is_value_in_local_box(int col, int row, int value) {
   return true;
 }
 
-bool SudokuBoard::
+bool
+SudokuBoard::
 is_value_in_local_column(int col, int value) {
   for (int j = 0; j < this->get_num_rows(); j++) {
     if (value == board_array[col][j])
@@ -153,7 +163,8 @@ is_value_in_local_column(int col, int value) {
   return true;
 }
 
-bool SudokuBoard::
+bool
+SudokuBoard::
 is_value_in_local_row(int row, int value) {
   for (int i = 0; i < this->get_num_columns(); i++) {
     if (value == board_array[i][row])
@@ -162,8 +173,9 @@ is_value_in_local_row(int row, int value) {
   return true;
 }
 
-bool *SudokuBoard::
-        get_valid_entries(int col, int row) {
+bool *
+SudokuBoard::
+get_valid_entries(int col, int row) {
   bool *value_entries = new bool[9];
   for (int i = 0; i < 9; i++) {
     int value = i + 1;
@@ -173,7 +185,9 @@ bool *SudokuBoard::
   return value_entries;
 }
 
-bool SudokuBoard::is_solved() {
+bool
+SudokuBoard::
+is_solved() {
   for (int i = 0; i < this->get_num_rows(); i++) {
     for (int j = 0; j < this->get_num_columns(); j++) {
       if (this->board_array[i][j] == 0)
@@ -183,8 +197,9 @@ bool SudokuBoard::is_solved() {
   return true;
 }
 
-ColRowVal SudokuBoard::
-        any_valid_moves() {
+ColRowVal
+SudokuBoard::
+any_valid_moves() {
   for (int i = 0; i < this->get_num_rows(); i++) {
     for (int j = 0; j < this->get_num_columns(); j++) {
       bool *valid_entries = get_valid_entries(j, i);
