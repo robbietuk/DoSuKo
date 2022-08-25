@@ -71,7 +71,7 @@ get_num_columns() {
 bool SudokuBoard::
 do_update_if_valid(int col, int row, int value) {
   if (is_valid_update(col, row, value)) {
-    board_array[col][row] = value;
+    do_update(col, row, value);
     return true;
   }
   return false;
@@ -84,6 +84,8 @@ do_update(int col, int row, int value) {
 
 bool SudokuBoard::
 is_valid_update(int col, int row, int value) {
+
+  assert(value > 0 && value <= 9);
 
   if (!this->is_free_position(col, row))
     return false;
@@ -135,5 +137,16 @@ is_value_in_local_row(int row, int value) {
       return false;
   }
   return true;
+}
+
+int *SudokuBoard::
+get_valid_entries(int col, int row) {
+  int *value_entries = new int[9];
+  for (int i = 0; i < 9; i++) {
+    int value = i + 1;
+    value_entries[i] = is_valid_update(col, row, value);
+  }
+
+  return value_entries;
 }
 

@@ -15,10 +15,16 @@ int main() {
   int row = 4;
   int col = 5;
 
-  for (int value = 1; value < 10; value++) {
-    std::cout << "Value: " << value
-              << " into pos (col,row): (" << col << ", " << row << ") is valid: "
-              << std::to_string(board.is_valid_update(col, row, value)) << std::endl;
+//  for (int value = 1; value < 10; value++) {
+//    std::cout << "Value: " << value
+//              << " into pos (col,row): (" << col << ", " << row << ") is valid: "
+//              << std::to_string(board.is_valid_update(col, row, value)) << std::endl;
+//  }
+  int * valid_entries = board.get_valid_entries(col, row);
+
+  for (int i = 0; i < 9; i++) {
+    if (valid_entries[i])
+        std::cout << "Value: " << i + 1 << " is valid" << std::endl;
   }
   return 0;
 }
