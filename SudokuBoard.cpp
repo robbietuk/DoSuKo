@@ -12,7 +12,7 @@ SudokuBoard(const std::string &board_config) {
 
 void
 SudokuBoard::
-        construct_board(const std::string &board_config) {
+construct_board(const std::string &board_config) {
   if (board_config.size() != 81) {
     std::string error_message =
             "Board config must be 81 characters long. (" +
@@ -21,6 +21,8 @@ SudokuBoard::
     throw std::runtime_error(error_message);
   }
 
+  reset_board_array();
+
   bool valid_board = true;
   for (int i = 0; i < board_config.size(); i++) {
     int value = board_config[i] - '0';
@@ -28,14 +30,26 @@ SudokuBoard::
       if (!do_update_if_valid(i / 9, i % 9, value)) {
         do_update_if_valid(i / 9, i % 9, value);
         valid_board = false;
+        break;
       }
     }
   }
   if (!valid_board) {
     std::string error_message = "Board config is not compatible with game rules.\n"
                                 "Board config: " +
-                                board_config + "\n";
+                                board_config + "\n" +
+                                is_valid_update_error_message;
     throw std::runtime_error(error_message);
+  }
+}
+
+void
+SudokuBoard::
+reset_board_array() {
+  for (auto &row : board_array) {
+    for (auto &col : row) {
+      col = 0;
+    }
   }
 }
 
@@ -48,9 +62,9 @@ void SudokuBoard::print_board() {
   }
 }
 
-void
+std::string
 SudokuBoard::
-print_board_with_boarder() {
+get_board_as_string_with_boarders() {
 
   // This doesn't x_gap and num_x_character does not work but it is fine for now.
   const int x_gap = 3;
@@ -79,8 +93,8 @@ print_board_with_boarder() {
     }
     output += boarder_vertical;
   }
-    output += "\n" + boarder_horizontal + "\n";
-  std::cout << output << std::endl;
+  output += "\n" + boarder_horizontal + "\n";
+  return output;
 }
 
 int
@@ -117,18 +131,39 @@ is_valid_update(int col, int row, int value) {
 
   assert(value > 0 && value <= 9);
 
-  if (!this->is_free_position(col, row))
+  if (!this->is_free_position(col, row)){
+    is_valid_update_error_message = "Position is not free. \n"
+                                    "Current value:" + std::to_string(get_board_value(col, row)) + "\n"
+                                    "Position: " + std::to_string(col) + "," + std::to_string(row) + "\n"
+                                    "Trying to inset value: " + std::to_string(value) + "\n";
     return false;
+  }
+  if (!this->is_value_in_local_box(col, row, value)) {
+    is_valid_update_error_message = "Value IS in local box. \n"
+                                    "Current value:" +
+                                    std::to_string(get_board_value(col, row)) +
+                                    "\nPosition: " +
+                                    std::to_string(col) + "," + std::to_string(row) +
+                                    "\nTrying to inset value: " +
+                                    std::to_string(value) + "\n" +
+                                    get_board_as_string_with_boarders();
+  }
 
-  if (!this->is_value_in_local_box(col, row, value))
+  if (!this->is_value_in_local_row(row, value)) {
+    is_valid_update_error_message = "Value is not in local row. \n"
+                                    "Current value:" + std::to_string(get_board_value(col, row)) + "\n"
+                                    "Position: " + std::to_string(col) + "," + std::to_string(row) + "\n";
     return false;
+  }
 
-  if (!this->is_value_in_local_row(row, value))
+  if (!this->is_value_in_local_column(col, value)){
+    is_valid_update_error_message = "Value is not in local column. \n"
+                                    "Current value:" + std::to_string(get_board_value(col, row)) + "\n"
+                                    "Position: " + std::to_string(col) + "," + std::to_string(row) + "\n";
     return false;
+  }
 
-  if (!this->is_value_in_local_column(col, value))
-    return false;
-
+  is_valid_update_error_message = "";
   return true;
 }
 
@@ -138,6 +173,11 @@ is_free_position(int col, int row) {
   return board_array[col][row] == 0;
 }
 
+int
+SudokuBoard::
+get_board_value(int col, int row) {
+  return board_array[col][row];
+}
 
 bool
 SudokuBoard::
@@ -152,6 +192,22 @@ is_value_in_local_box(int col, int row, int value) {
   }
   return true;
 }
+
+LocalBox
+SudokuBoard::
+get_local_box(int col, int row){
+  LocalBox lb(col, row);
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      int di = (row / 3) * 3 + i;// e.g. (5/3) * 3 = 3
+      int dj = (col / 3) * 3 + j;// need to divide (int) by 3 and multiply by 3,
+      lb.local_box[i][j] = board_array[di][dj];
+    }
+  }
+  return lb;
+}
+
+
 
 bool
 SudokuBoard::

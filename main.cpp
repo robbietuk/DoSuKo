@@ -14,17 +14,9 @@ int main() {
 
   for (int i = 0; i < board_configs.get_num_problems_loaded(); i++) {
     ProblemSolutionSet problem_solution_set = board_configs.get_next_problems_set();
-    std::cout << "Problem  " << i << ": " << board_configs.get_next_problems_set().problem << "\n"
-                 "Solution " << i << ": " << board_configs.get_next_problems_set().solution << "\n";
+    std::cout << "Problem  " << i << ": " << problem_solution_set.problem << "\n"
+                 "Solution " << i << ": " << problem_solution_set.solution << "\n";
     SudokuBoard board(problem_solution_set.problem);
-//    board.solve();
-    if (board_configs.is_problem_solution_combo_valid(problem_solution_set.problem,
-                                                  problem_solution_set.solution))
-    {
-      std::cout << "Valid" << std::endl;
-    } else {
-      std::cout << "Invalid" << std::endl;
-    }
   }
   return 0;
 }

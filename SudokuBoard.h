@@ -13,6 +13,21 @@ struct ColRowVal {
     int value;
 };
 
+class LocalBox {
+public:
+  LocalBox(int col, int row, int value = -1) {
+    this->col = col;
+    this->row = row;
+    this->value = value;
+  }
+
+public:
+  int col;
+  int row;
+  int value;
+  int local_box[3][3] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+};
+
 
 class SudokuBoard {
 public:
@@ -21,13 +36,15 @@ public:
 //    SudokuBoard(const std::string &board_config, int size_x, int size_y);
     ~SudokuBoard() = default;
 
+    void reset_board_array();
+
     void construct_board(const std::string &board_config);
 
     //! Prints the board to the console.
     void print_board();
 
     //! Prints the board with boarders to the console.
-    void print_board_with_boarder();
+    std::string get_board_as_string_with_boarders();
 
     //! Returns the number of rows
     int get_num_rows();
@@ -50,11 +67,15 @@ public:
     //! Returns the a valid move.
     ColRowVal any_valid_moves();
 
+    LocalBox get_local_box(int col, int row);
+
 private:
     //! Insets the value at the given position in the board. THERE ARE NO ERROR CHECKS.
     void do_update(int col, int row, int value);
 
     bool is_free_position(int col, int row);
+
+    int get_board_value(int col, int row);
 
     bool is_value_in_local_box(int col, int row, int value);
 
@@ -65,7 +86,8 @@ private:
 
 private:
     //! Board array
-    int board_array[9][9]{};
+    int board_array[9][9];
+    std::string is_valid_update_error_message;
 };
 
 
