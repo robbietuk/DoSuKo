@@ -26,10 +26,12 @@ void tokenize(std::string const &str, const char delim,
 
 LoadBoards::
 LoadBoards(const std::string &file_name){
-    this->file_name = file_name;
-    this->current_set_num = 0;
-    this->max_num_sets_per_fetch = 500;
-    load_next_problems_data_from_csv();
+
+  std::cout << "\nLoading Sudoko problems from file:\n\t" << file_name << "\n\n";
+  this->file_name = file_name;
+  this->current_set_num = 0;
+  this->max_num_sets_per_fetch = 500;
+  load_next_problems_data_from_csv();
 }
 
 std::vector<ProblemSolutionSet>
