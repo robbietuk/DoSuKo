@@ -3,4 +3,8 @@ project(DoSuKo)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(DoSuKo main.cpp SudokuBoard.h SudokuBoard.cpp LoadBoards.h LoadBoards.cpp)
+add_executable(DoSuKo
+        main.cpp
+        game/SudokuBoard.h game/SudokuBoard.cpp
+        game/LoadBoards.h game/LoadBoards.cpp
+        )

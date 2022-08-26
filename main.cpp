@@ -1,8 +1,6 @@
+#include "game/LoadBoards.h"
+#include "game/SudokuBoard.h"
 #include <iostream>
-#include "SudokuBoard.h"
-#include "LoadBoards.h"
-
-
 
 
 int main(int argc, char** argv) {
