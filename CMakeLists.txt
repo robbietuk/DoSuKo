@@ -7,4 +7,10 @@ add_executable(DoSuKo
         main.cpp
         game/SudokuBoard.h game/SudokuBoard.cpp
         game/LoadBoards.h game/LoadBoards.cpp
+        Solvers/DumbOne.h Solvers/DumbOne.cpp
+        )
+
+target_include_directories(${PROJECT_NAME}
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/game
         )

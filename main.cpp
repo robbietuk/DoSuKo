@@ -1,5 +1,6 @@
 #include "game/LoadBoards.h"
 #include "game/SudokuBoard.h"
+#include "Solvers/DumbOne.h"
 #include <iostream>
 
 
@@ -22,7 +23,9 @@ int main(int argc, char** argv) {
       std::cerr << "WARNING: The solution does not represent the problem!\n"
                    "Problem  " << i << ": " << problem_solution_set.problem << "\n"
                    "Solution " << i << ": " << problem_solution_set.solution << "\n";
+      continue;
     }
+    DumbOne dumb_one(&board);
   }
   return 0;
 }
