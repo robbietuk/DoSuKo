@@ -31,6 +31,7 @@ public:
 
 class SudokuBoard {
 public:
+    SudokuBoard();
     explicit SudokuBoard(const std::string &board_config);
 
 //    SudokuBoard(const std::string &board_config, int size_x, int size_y);
@@ -69,6 +70,9 @@ public:
 
     LocalBox get_local_box(int col, int row);
 
+    std::vector<int> get_row(int row);
+    std::vector<int> get_col(int col);
+
 private:
     //! Insets the value at the given position in the board. THERE ARE NO ERROR CHECKS.
     void do_update(int col, int row, int value);
@@ -86,7 +90,7 @@ private:
 
 private:
     //! Board array
-    int board_array[9][9];
+    int board_array[9][9]{};
     std::string is_valid_update_error_message;
 };
 

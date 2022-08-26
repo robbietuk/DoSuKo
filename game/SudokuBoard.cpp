@@ -4,6 +4,11 @@
 
 #include "SudokuBoard.h"
 #include <iostream>
+#include <vector>
+
+
+SudokuBoard::
+SudokuBoard() {}
 
 SudokuBoard::
 SudokuBoard(const std::string &board_config) {
@@ -267,4 +272,20 @@ any_valid_moves() {
     }
   }
   return ColRowVal{-1, -1, -1};
+}
+
+std::vector<int> SudokuBoard::get_row(int row) {
+  std::vector<int> row_vector;
+  for (int i = 0; i < this->get_num_columns(); i++) {
+    row_vector.push_back(this->board_array[i][row]);
+  }
+  return row_vector;
+}
+
+std::vector<int> SudokuBoard::get_col(int col) {
+    std::vector<int> col_vector;
+    for (int i = 0; i < this->get_num_rows(); i++) {
+        col_vector.push_back(this->board_array[col][i]);
+    }
+    return col_vector;
 }
