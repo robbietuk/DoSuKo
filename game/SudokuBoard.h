@@ -8,9 +8,9 @@
 #include <iostream>
 
 struct ColRowVal {
-    int col;
-    int row;
-    int value;
+    int col = -1;
+    int row = -1;
+    int value = -1;
 };
 
 class LocalBox {
@@ -54,10 +54,10 @@ public:
     int get_num_columns();
 
     //! Updates col,row with value if it is a valid update.
-    bool do_update_if_valid(int col, int row, int value);
+    bool do_update_cell_if_valid(int col, int row, int value);
 
     //! Returns true if setting col,row to value is valid.
-    bool is_valid_update(int col, int row, int value);
+    bool is_valid_cell_update(int col, int row, int value);
 
     //! Returns a pointer to an array of booleans indicating which indices (+1) are valid for col,row.
     bool *get_valid_entries(int col, int row);

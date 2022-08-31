@@ -32,8 +32,7 @@ construct_board(const std::string &board_config) {
   for (int i = 0; i < board_config.size(); i++) {
     int value = board_config[i] - '0';
     if (value != 0) {
-      if (!do_update_if_valid(i / 9, i % 9, value)) {
-        do_update_if_valid(i / 9, i % 9, value);
+      if (!do_update_cell_if_valid(i / 9, i % 9, value)) {
         valid_board = false;
         break;
       }
@@ -116,8 +115,8 @@ get_num_columns() {
 
 bool
 SudokuBoard::
-do_update_if_valid(int col, int row, int value) {
-  if (is_valid_update(col, row, value)) {
+do_update_cell_if_valid(int col, int row, int value) {
+  if (is_valid_cell_update(col, row, value)) {
     do_update(col, row, value);
     return true;
   }
@@ -132,7 +131,7 @@ do_update(int col, int row, int value) {
 
 bool
 SudokuBoard::
-is_valid_update(int col, int row, int value) {
+is_valid_cell_update(int col, int row, int value) {
 
   assert(value > 0 && value <= 9);
 
@@ -240,7 +239,7 @@ get_valid_entries(int col, int row) {
   bool *value_entries = new bool[9];
   for (int i = 0; i < 9; i++) {
     int value = i + 1;
-    value_entries[i] = is_valid_update(col, row, value);
+    value_entries[i] = is_valid_cell_update(col, row, value);
   }
 
   return value_entries;
@@ -271,7 +270,7 @@ any_valid_moves() {
       }
     }
   }
-  return ColRowVal{-1, -1, -1};
+  return ColRowVal{};
 }
 
 std::vector<int> SudokuBoard::get_row(int row) {
