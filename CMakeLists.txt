@@ -9,19 +9,19 @@ add_executable(DoSuKo
         main.cpp
         game/SudokuBoard.cpp game/SudokuBoard.h
         game/LoadBoards.cpp game/LoadBoards.h
-        Solvers/DumbOne.cpp Solvers/DumbOne.h
+        solvers/DumbOne.cpp solvers/DumbOne.h
         )
-target_link_directories(DoSuKo PUBLIC /usr/local/lib)
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/game
+        ${CMAKE_CURRENT_SOURCE_DIR}/solvers
         )
 
 
 enable_testing()
 add_executable(test_functions
-        test_functions.cpp
+        test/test_functions.cpp
         game/SudokuBoard.cpp game/SudokuBoard.h
         game/LoadBoards.cpp game/LoadBoards.h
         Solvers/DumbOne.cpp Solvers/DumbOne.h
@@ -30,5 +30,6 @@ add_executable(test_functions
 target_include_directories(test_functions
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/game
+        ${CMAKE_CURRENT_SOURCE_DIR}/Solvers
         )
 add_test(test_functions test_functions )

@@ -1,7 +1,7 @@
 
-#include "game/LoadBoards.h"
-#include "game/SudokuBoard.h"
-#include "Solvers/DumbOne.h"
+#include "LoadBoards.h"
+#include "SudokuBoard.h"
+#include "DumbOne.h"
 #include <iostream>
 
 

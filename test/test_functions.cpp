@@ -5,8 +5,8 @@
 #include <iostream>
 #include <vector>
 
-#include "game/SudokuBoard.h"
-#include "Solvers/DumbOne.h"
+#include "DumbOne.h"
+#include "SudokuBoard.h"
 
 
 bool test_get_singular_empty(){
