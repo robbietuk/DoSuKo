@@ -2,8 +2,9 @@
 // Created by Robert Twyman Skelly on 8/26/22.
 //
 
-#include <vector>
 #include "DumbOne.h"
+#include "solver_functions.h"
+#include <vector>
 
 DumbOne::
 DumbOne(SudokuBoard *board_ptr) {
@@ -67,20 +68,3 @@ bool DumbOne::compute_singular_moves() {
   return false;
 }
 
-std::tuple<int, int>
-DumbOne::
-get_singular_empty(std::vector<int> entries) {
-  int empty_index = -1;  // -1 indicates no empty cells found or multiple empty cells found.
-  int value = 45; // This is (n)(n+1)/2, n=9 => 45. Used to determine the missing entry value.
-
-  for (int i = 0; i < entries.size(); i++) {
-    value -= entries[i];
-    if (entries[i] == 0){
-      if (empty_index != -1)
-        return std::make_tuple(-1, -1);
-      empty_index = i;
-
-    }
-  }
-  return std::make_tuple(empty_index, value);
-}

@@ -17,13 +17,6 @@ public:
 
   bool get_board_solved() const { return board_solved; }
 
-    /*!
-    * @brief Returns the index of the first empty cell in the row. OR -1 if no empty cells are found.
-    * @param row The row to search.
-    * @return The index of the first empty cell in the row and the missing value.
-  */
-    std::tuple<int, int> get_singular_empty(std::vector<int> entries);
-
 
 private:
   void compute_next_move();

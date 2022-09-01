@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "DumbOne.h"
-#include "SudokuBoard.h"
+#include "solver_functions.h"
 
 
 bool test_get_singular_empty(){
@@ -19,7 +19,7 @@ bool test_get_singular_empty(){
     std::vector<int> test_vec = full_vec;
     test_vec[corr_index] = 0;
     int index, value;
-    std::tie(index, value) = dumb1.get_singular_empty(test_vec);
+    std::tie(index, value) = get_singular_empty(test_vec);
     if (index != corr_index || value != corr_index + 1) {
       test_pass = false;
       break;

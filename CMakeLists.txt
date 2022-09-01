@@ -10,6 +10,7 @@ add_executable(DoSuKo
         game/SudokuBoard.cpp game/SudokuBoard.h
         game/LoadBoards.cpp game/LoadBoards.h
         solvers/DumbOne.cpp solvers/DumbOne.h
+        solvers/solver_functions.cpp solvers/solver_functions.h
         )
 
 target_include_directories(${PROJECT_NAME}
@@ -24,12 +25,13 @@ add_executable(test_functions
         test/test_functions.cpp
         game/SudokuBoard.cpp game/SudokuBoard.h
         game/LoadBoards.cpp game/LoadBoards.h
-        Solvers/DumbOne.cpp Solvers/DumbOne.h
+        solvers/DumbOne.cpp solvers/DumbOne.h
+        solvers/solver_functions.cpp solvers/solver_functions.h
         )
 
 target_include_directories(test_functions
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/game
-        ${CMAKE_CURRENT_SOURCE_DIR}/Solvers
+        ${CMAKE_CURRENT_SOURCE_DIR}/solvers
         )
 add_test(test_functions test_functions )
