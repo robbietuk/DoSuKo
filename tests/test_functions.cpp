@@ -39,9 +39,9 @@ TestFunctions::test_get_singular_empty() {
 int main() {
   bool test_pass = true;
 
-  TestFunctions test1;
-  test1.run_tests();
-  test1.print_error_message();
-  return test1.get_testOK();
+  TestFunctions test_functions;
+  test_functions.run_tests();
+  test_functions.print_error_message();
+  return test_functions.get_testOK();
 }
 
