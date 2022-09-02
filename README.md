@@ -24,3 +24,14 @@ see `DuSuKo/examples/example500.csv` or the Examples section below.
 
 ### Examples
 Example sudoku games can be found at: https://www.kaggle.com/datasets/rohanrao/sudoku
+
+
+CURRENT AIMS
+ - [ ] Implement a potential board. 
+   Basically the same as the Sudoku board, but with a list of potential values for each cell.
+ - [ ] Implement compute potential values method for each row, column and local box.
+ - [ ] Add timing. 
+   - [ ] How may times did the algorithm have to search, and 
+   - [ ] Profile different algorithms.
+ - [ ] Add a number of new test cases for the boards.
+ - [ ] Add a number of new test cases for the basic functions
