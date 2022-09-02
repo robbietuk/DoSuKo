@@ -20,13 +20,7 @@ SudokuBoard(const std::string &board_config) {
 void
 SudokuBoard::
 construct_board(const std::string &board_config) {
-  if (board_config.size() != 81) {
-    std::string error_message =
-            "Board config must be 81 characters long. (" +
-            std::to_string(board_config.size()) + " given).\n" +
-            "Board config: " + board_config + "\n";
-    throw std::runtime_error(error_message);
-  }
+  ensure_board_config_is_valid(board_config);
 
   reset_board_array();
 
@@ -59,7 +53,8 @@ reset_board_array() {
   }
 }
 
-void SudokuBoard::print_board() {
+void
+SudokuBoard::print_board() {
   for (auto &i: board_array) {// row
     for (int j: i) {          // element [row][col]
       std::cout << j << "  ";
@@ -289,4 +284,23 @@ std::vector<int> SudokuBoard::get_col(int col) {
         col_vector.push_back(this->board_array[col][i]);
     }
     return col_vector;
+}
+void
+SudokuBoard::ensure_board_config_is_valid(const std::string &board_config) {
+  if (board_config.size() != 81) {
+    std::string error_message =
+            "Board config must be 81 characters long. (" +
+            std::to_string(board_config.size()) + " given).\n" +
+            "Board config: " + board_config + "\n";
+    throw std::runtime_error(error_message);
+  }
+  for (auto i : board_config) {
+    if (i != '0' && (i < '1' || i > '9')) {
+      std::string error_message =
+              "Board config must only contain numbers 0-9. (" +
+              std::to_string(i) + " given).\n" +
+              "Board config: " + board_config + "\n";
+      throw std::runtime_error(error_message);
+    }
+  }
 }
