@@ -17,6 +17,10 @@ list(APPEND SOLVERS_FILES
         ${SOLVERS_DIR}/DumbOne.cpp ${SOLVERS_DIR}/DumbOne.h
         ${SOLVERS_DIR}/solver_functions.cpp ${SOLVERS_DIR}/solver_functions.h)
 
+### TESTS DIR ###
+set(TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
+
+
 
 ### DoSuKo executable ###
 add_executable(${PROJECT_NAME}
@@ -32,4 +36,5 @@ target_include_directories(${PROJECT_NAME}
         )
 
 ### TESTS ###
+enable_testing()
 add_subdirectory(tests)
