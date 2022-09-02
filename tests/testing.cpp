@@ -3,26 +3,44 @@
 //
 
 #include "testing.h"
+#include <string>
 
-
-Testing::Testing() {
-    std::cout << "Testing constructor called" << std::endl;
+Testing::Testing(std::string& testName)
+    : test_name(testName) {
+    std::cout << "Testing constructor called. Setting te" << std::endl;
 }
 
 void
 Testing::
-print_error_message() const {
+print_error_message() {
   std::cout << "Test: " << test_name
             << " failed with the following error message:\n"
-            << error_message << std::endl;
+            << get_error_message() << std::endl;
 }
 
-void
-Testing::set_test_name(const std::string &name) {
-  test_name = name;
+std::string
+Testing::get_test_name() {
+  return test_name;
 }
 
 void
 Testing::add_to_error_message(const std::string &message) {
   error_message += message + "\n";
+}
+
+std::string
+Testing::get_error_message() {
+  return error_message;
+}
+void
+Testing::report_error_status(bool has_error, const std::string &message) {
+    if (has_error) {
+        testOK = false;
+        add_to_error_message(message);
+    }
+}
+
+void Testing::reset_error_status() {
+  testOK = true;
+  error_message = "";
 }

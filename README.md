@@ -33,5 +33,6 @@ CURRENT AIMS
  - [ ] Add timing. 
    - [ ] How may times did the algorithm have to search, and 
    - [ ] Profile different algorithms.
- - [ ] Add a number of new test cases for the boards.
- - [ ] Add a number of new test cases for the basic functions
+ - [ ] Add a number of new run_test cases for the boards.
+ - [ ] Add a number of new run_test cases for the basic functions
+ - [x] Add base class for testing.
