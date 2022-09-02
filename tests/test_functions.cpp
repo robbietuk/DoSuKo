@@ -5,12 +5,19 @@
 #include <iostream>
 #include <vector>
 
+#include "test_functions.h"
 #include "DumbOne.h"
 #include "solver_functions.h"
 
 
-bool test_get_singular_empty(){
+TestFunctions::TestFunctions()
+    : Testing("TestFunctions") {}
 
+void TestFunctions::run_tests() {
+  test_get_singular_empty();
+}
+bool
+TestFunctions::test_get_singular_empty() {
   DumbOne dumb1;
   std::vector<int> full_vec =  {1,2,3,4,5,6,7,8,9};
   bool test_pass = true;
@@ -28,18 +35,13 @@ bool test_get_singular_empty(){
   return test_pass;
 }
 
+
 int main() {
   bool test_pass = true;
 
-
-  test_pass = test_pass && test_get_singular_empty();
-
-
-  if (test_pass){
-    std::cout << "All tests passed." << std::endl;
-    return 0;
-  } else {
-    std::cout << "Some tests failed." << std::endl;
-    return 1;
-  }
+  TestFunctions test1;
+  test1.run_tests();
+  test1.print_error_message();
+  return test1.get_testOK();
 }
+

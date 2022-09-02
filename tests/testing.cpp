@@ -5,17 +5,22 @@
 #include "testing.h"
 #include <string>
 
-Testing::Testing(std::string& testName)
-    : test_name(testName) {
-    std::cout << "Testing constructor called. Setting te" << std::endl;
+Testing::Testing(std::string test_name)
+    : test_name(test_name) {
+    std::cout << "Setting the test_name to " << this->test_name << std::endl;
 }
 
 void
 Testing::
 print_error_message() {
-  std::cout << "Test: " << test_name
-            << " failed with the following error message:\n"
-            << get_error_message() << std::endl;
+  if (!this->error_message.empty()){
+    std::cout << "Test: " << test_name
+              << " failed with the following error message:\n"
+              << get_error_message() << std::endl;
+  } else if (this->testOK) {
+    std::cout << "Test: " << test_name << " - PASSED!" << std::endl;
+  }
+
 }
 
 std::string

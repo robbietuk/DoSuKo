@@ -12,10 +12,10 @@
 class Testing {
 public:
   //! Base class for testing.
-  explicit Testing(std::string& testName);
+  explicit Testing(std::string testName);
 
-  // main run_test function to be overridden by child classes.
-  virtual bool run_test() = 0;
+  // main run_tests function to be overridden by child classes.
+  virtual void run_tests() = 0;
 
   //! Get the name of the test.
   std::string get_test_name();
@@ -34,6 +34,8 @@ public:
 
   //! Resets the error status and error message. BEWARE, erases all previous related errors..
   void reset_error_status();
+
+  bool get_testOK() { return false; }
 
 private:
   //! The name of the test.

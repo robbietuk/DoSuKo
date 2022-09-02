@@ -11,7 +11,7 @@ class TestBoards : public Testing {
   TestBoards();
 
 public:
-  bool run_test() override;
+  void run_tests() override;
 };
 
 
