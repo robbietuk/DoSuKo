@@ -3,6 +3,8 @@
 //
 
 #include "SudokuBoard.h"
+#include "ColRowVal.h"
+#include "LocalBox.h"
 #include <iostream>
 #include <vector>
 

@@ -3,6 +3,7 @@
 //
 
 #include "DumbOne.h"
+#include "ColRowVal.h"
 #include "solver_functions.h"
 #include <vector>
 

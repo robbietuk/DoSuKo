@@ -5,28 +5,9 @@
 #ifndef DOSUKO_SUDOKUBOARD_H
 #define DOSUKO_SUDOKUBOARD_H
 
+#include "ColRowVal.h"
+#include "LocalBox.h"
 #include <iostream>
-
-struct ColRowVal {
-    int col = -1;
-    int row = -1;
-    int value = -1;
-};
-
-class LocalBox {
-public:
-  LocalBox(int col, int row, int value = -1) {
-    this->col = col;
-    this->row = row;
-    this->value = value;
-  }
-
-public:
-  int col;
-  int row;
-  int value;
-  int local_box[3][3] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-};
 
 
 class SudokuBoard {
@@ -68,9 +49,13 @@ public:
     //! Returns the a valid move.
     ColRowVal any_valid_moves();
 
+    //! Returns a local box object the col,row combo is in.
     LocalBox get_local_box(int col, int row);
 
+    //! Returns a vector of values corresponding to the indicated row.
     std::vector<int> get_row(int row);
+
+    //! Returns a vector of values corresponding to the indicated column.
     std::vector<int> get_col(int col);
 
 private:
