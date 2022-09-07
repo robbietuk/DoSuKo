@@ -20,9 +20,6 @@ public:
   //! Get the name of the test.
   std::string get_test_name();
 
-  //! Adds a string message to the error message with "\n" between entries.
-  void add_to_error_message(const std::string &message);
-
   //! Prints the error message to the console.
   void print_error_message();
 
@@ -30,14 +27,19 @@ public:
   std::string get_error_message();
 
   //! Reports an error has_error and adds a message to the error message.
-  void report_error_status(bool has_error, const std::string &message);
+  void report_error(const std::string &message);
 
   //! Resets the error status and error message. BEWARE, erases all previous related errors..
   void reset_error_status();
 
-  bool get_testOK() { return false; }
+  //! Returns the error status for program exit.
+  bool get_testOK() { return !testOK; }
 
 private:
+
+  //! Adds a string message to the error message with "\n" between entries.
+  void add_to_error_message(const std::string &message);
+
   //! The name of the test.
   std::string test_name;
 

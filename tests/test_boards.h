@@ -17,6 +17,8 @@ public:
 
 private:
   void test_board_is_completed();
+  void test_encoding_and_decoding();
+  void test_updates();
 
 private:
   std::string example_problem;
