@@ -6,17 +6,19 @@
 #define DOSUKO_POSSIBLECELL_H
 
 #include <vector>
+#include "Cell.h"
 
-class PossibleCell {
+class PossibleCell : public Cell {
 public:
-  PossibleCell(int value = 0) {
-    set_value_and_clear_possibles(value);
+  PossibleCell(int value = 0)
+      : Cell(value) {
+    clear_possibles();
   }
 
-  void set_value_and_clear_possibles(int value) {
-    this->value = value;
+  void clear_possibles() {
     possible_values.clear();
   }
+
   void add_possible_value(int value) {
     for (auto it = possible_values.begin(); it != possible_values.end(); ++it) {
       if (*it == value) {
@@ -35,16 +37,11 @@ public:
     }
   }
 
-  int get_value() const {
-    return value;
-  }
-
-  [[nodiscard]] const std::vector<int> &get_possible_values() const {
+  const std::vector<int> &get_possible_values() const {
     return possible_values;
   }
 
 private: // Variables
-    int value;
     std::vector<int> possible_values;
 };
 

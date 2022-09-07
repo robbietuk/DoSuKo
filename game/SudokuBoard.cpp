@@ -56,8 +56,8 @@ reset_board_array() {
 void
 SudokuBoard::print_board() {
   for (auto &i: board_array) {// row
-    for (int j: i) {          // element [row][col]
-      std::cout << j << "  ";
+    for (auto j : i) {          // element [row][col]
+      std::cout << j.get_value() << "  ";
     }
     std::cout << std::endl;
   }
@@ -90,7 +90,7 @@ get_board_as_string_with_boarders() {
         output += boarder_vertical;
       else
         output += " ";
-      output += std::to_string(this->board_array[i][j]);
+      output += std::to_string(this->board_array[i][j].get_value());
     }
     output += boarder_vertical;
   }
@@ -171,13 +171,13 @@ is_valid_cell_update(int col, int row, int value) {
 bool
 SudokuBoard::
 is_free_position(int col, int row) {
-  return board_array[col][row] == 0;
+  return board_array[col][row].get_value() == 0;
 }
 
 int
 SudokuBoard::
 get_board_value(int col, int row) {
-  return board_array[col][row];
+  return board_array[col][row].get_value();
 }
 
 bool
@@ -187,7 +187,7 @@ is_value_in_local_box(int col, int row, int value) {
     for (int j = 0; j < 3; j++) {
       int di = (row / 3) * 3 + i;// e.g. (5/3) * 3 = 3
       int dj = (col / 3) * 3 + j;// need to divide (int) by 3 and multiply by 3,
-      if (value == board_array[di][dj])
+      if (value == board_array[di][dj].get_value())
         return false;
     }
   }
@@ -202,7 +202,7 @@ get_local_box(int col, int row){
     for (int j = 0; j < 3; j++) {
       int di = (row / 3) * 3 + i;// e.g. (5/3) * 3 = 3
       int dj = (col / 3) * 3 + j;// need to divide (int) by 3 and multiply by 3,
-      lb.local_box[i][j] = board_array[di][dj];
+      lb.local_box[i][j] = board_array[di][dj].get_value();
     }
   }
   return lb;
@@ -214,7 +214,7 @@ bool
 SudokuBoard::
 is_value_in_local_column(int col, int value) {
   for (int j = 0; j < this->get_num_rows(); j++) {
-    if (value == board_array[col][j])
+    if (value == board_array[col][j].get_value())
       return false;
   }
   return true;
@@ -224,7 +224,7 @@ bool
 SudokuBoard::
 is_value_in_local_row(int row, int value) {
   for (int i = 0; i < this->get_num_columns(); i++) {
-    if (value == board_array[i][row])
+    if (value == board_array[i][row].get_value())
       return false;
   }
   return true;
@@ -247,7 +247,7 @@ SudokuBoard::
 is_solved() {
   for (int i = 0; i < this->get_num_rows(); i++) {
     for (int j = 0; j < this->get_num_columns(); j++) {
-      if (this->board_array[i][j] == 0)
+      if (this->board_array[i][j].get_value() == 0)
         return false;
     }
   }
@@ -270,21 +270,23 @@ any_valid_moves() {
   return ColRowVal{};
 }
 
-std::vector<int> SudokuBoard::get_row(int row) {
-  std::vector<int> row_vector;
+std::vector<Cell>
+SudokuBoard::get_row(int row) {
+  std::vector<Cell> row_vector;
   for (int i = 0; i < this->get_num_columns(); i++) {
     row_vector.push_back(this->board_array[i][row]);
   }
   return row_vector;
 }
 
-std::vector<int> SudokuBoard::get_col(int col) {
-    std::vector<int> col_vector;
-    for (int i = 0; i < this->get_num_rows(); i++) {
-        col_vector.push_back(this->board_array[col][i]);
-    }
-    return col_vector;
+std::vector<Cell> SudokuBoard::get_col(int col) {
+  std::vector<Cell> col_vector;
+  for (int i = 0; i < this->get_num_rows(); i++) {
+    col_vector.push_back(this->board_array[col][i]);
+  }
+  return col_vector;
 }
+
 void
 SudokuBoard::ensure_board_config_is_valid(const std::string &board_config) {
   if (board_config.size() != 81) {

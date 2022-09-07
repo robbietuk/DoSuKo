@@ -7,6 +7,7 @@
 
 #include "ColRowVal.h"
 #include "LocalBox.h"
+#include "PossibleCell.h"
 #include <iostream>
 
 
@@ -52,13 +53,13 @@ public:
   LocalBox get_local_box(int col, int row);
 
   //! Returns a vector of values corresponding to the indicated row.
-  std::vector<int> get_row(int row);
+  std::vector<Cell> get_row(int row);
 
   //! Returns a vector of values corresponding to the indicated column.
-  std::vector<int> get_col(int col);
+  std::vector<Cell> get_col(int col);
 
 protected:
-  void ensure_board_config_is_valid(const std::string &board_config);
+  static void ensure_board_config_is_valid(const std::string &board_config);
 
 private:
   //! Insets the value at the given position in the board. THERE ARE NO ERROR CHECKS.
@@ -76,7 +77,7 @@ private:
 
 private:
   //! Board array
-  int board_array[9][9]{};
+  PossibleCell board_array[9][9]{};
 
   std::string is_valid_update_error_message;
 };

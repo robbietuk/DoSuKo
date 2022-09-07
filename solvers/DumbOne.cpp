@@ -54,7 +54,7 @@ compute_next_move() {
 
 bool DumbOne::compute_singular_moves() {
 
-  std::vector<int> entries(9);
+  std::vector<Cell> entries(9);
   for (int i = 1; i <= 9; i++) {
     entries = board_ptr->get_row(i);
 
