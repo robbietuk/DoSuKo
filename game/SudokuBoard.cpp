@@ -9,18 +9,15 @@
 #include <vector>
 
 
-SudokuBoard::
-SudokuBoard() {}
+SudokuBoard::SudokuBoard() {}
 
-SudokuBoard::
-SudokuBoard(const std::string &board_config) {
+SudokuBoard::SudokuBoard(const std::string &board_config) {
   construct_board(board_config);
 }
 
 void
-SudokuBoard::
-construct_board(const std::string &board_config) {
-  ensure_board_config_is_valid(board_config);
+SudokuBoard::construct_board(const std::string &board_config) {
+  is_board_string_valid(board_config);
 
   reset_board_array();
 
@@ -43,12 +40,22 @@ construct_board(const std::string &board_config) {
   }
 }
 
+std::string
+SudokuBoard::encode() {
+    std::string board_string;
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+        board_string += std::to_string(board_array[i][j].get_value());
+        }
+    }
+    return board_string;
+}
+
 void
-SudokuBoard::
-reset_board_array() {
+SudokuBoard::reset_board_array() {
   for (auto &row : board_array) {
-    for (auto &col : row) {
-      col = 0;
+    for (auto &cell : row) {
+      cell.set_value(0);
     }
   }
 }
@@ -64,8 +71,7 @@ SudokuBoard::print_board() {
 }
 
 std::string
-SudokuBoard::
-get_board_as_string_with_boarders() {
+SudokuBoard::get_board_as_string_with_boarders() {
 
   // This doesn't x_gap and num_x_character does not work but it is fine for now.
   const int x_gap = 3;
@@ -99,20 +105,17 @@ get_board_as_string_with_boarders() {
 }
 
 int
-SudokuBoard::
-get_num_rows() {
+SudokuBoard::get_num_rows() {
   return sizeof(board_array)/sizeof(board_array[0]);
 }
 
 int
-SudokuBoard::
-get_num_columns() {
+SudokuBoard::get_num_columns() {
   return sizeof(board_array[0])/sizeof(board_array[0][0]);
 }
 
 bool
-SudokuBoard::
-do_update_cell_if_valid(int col, int row, int value) {
+SudokuBoard::do_update_cell_if_valid(int col, int row, int value) {
   if (is_valid_cell_update(col, row, value)) {
     do_update(col, row, value);
     return true;
@@ -121,20 +124,18 @@ do_update_cell_if_valid(int col, int row, int value) {
 }
 
 void
-SudokuBoard::
-do_update(int col, int row, int value) {
-  board_array[col][row] = value;
+SudokuBoard::do_update(int col, int row, int value) {
+  board_array[col][row].set_value(value);
 }
 
 bool
-SudokuBoard::
-is_valid_cell_update(int col, int row, int value) {
+SudokuBoard::is_valid_cell_update(int col, int row, int value) {
 
   assert(value > 0 && value <= 9);
 
   if (!this->is_free_position(col, row)){
     is_valid_update_error_message = "Position is not free. \n"
-                                    "Current value:" + std::to_string(get_board_value(col, row)) + "\n"
+                                    "Current value:" + std::to_string(get_cell(col, row).get_value()) + "\n"
                                     "Position: " + std::to_string(col) + "," + std::to_string(row) + "\n"
                                     "Trying to inset value: " + std::to_string(value) + "\n";
     return false;
@@ -142,7 +143,7 @@ is_valid_cell_update(int col, int row, int value) {
   if (!this->is_value_in_local_box(col, row, value)) {
     is_valid_update_error_message = "Value IS in local box. \n"
                                     "Current value:" +
-                                    std::to_string(get_board_value(col, row)) +
+                                    std::to_string(get_cell(col, row).get_value()) +
                                     "\nPosition: " +
                                     std::to_string(col) + "," + std::to_string(row) +
                                     "\nTrying to inset value: " +
@@ -152,14 +153,14 @@ is_valid_cell_update(int col, int row, int value) {
 
   if (!this->is_value_in_local_row(row, value)) {
     is_valid_update_error_message = "Value is not in local row. \n"
-                                    "Current value:" + std::to_string(get_board_value(col, row)) + "\n"
+                                    "Current value:" + std::to_string(get_cell(col, row).get_value()) + "\n"
                                     "Position: " + std::to_string(col) + "," + std::to_string(row) + "\n";
     return false;
   }
 
   if (!this->is_value_in_local_column(col, value)){
     is_valid_update_error_message = "Value is not in local column. \n"
-                                    "Current value:" + std::to_string(get_board_value(col, row)) + "\n"
+                                    "Current value:" + std::to_string(get_cell(col, row).get_value()) + "\n"
                                     "Position: " + std::to_string(col) + "," + std::to_string(row) + "\n";
     return false;
   }
@@ -169,25 +170,23 @@ is_valid_cell_update(int col, int row, int value) {
 }
 
 bool
-SudokuBoard::
-is_free_position(int col, int row) {
+SudokuBoard::is_free_position(int col, int row) {
   return board_array[col][row].get_value() == 0;
 }
 
-int
-SudokuBoard::
-get_board_value(int col, int row) {
-  return board_array[col][row].get_value();
+Cell
+SudokuBoard::get_cell(int col, int row) {
+  return board_array[col][row];
 }
 
 bool
-SudokuBoard::
-is_value_in_local_box(int col, int row, int value) {
+SudokuBoard::is_value_in_local_box(int col, int row, int value) {
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       int di = (row / 3) * 3 + i;// e.g. (5/3) * 3 = 3
       int dj = (col / 3) * 3 + j;// need to divide (int) by 3 and multiply by 3,
-      if (value == board_array[di][dj].get_value())
+      int cell_value = board_array[di][dj].get_value();
+      if (value == cell_value)
         return false;
     }
   }
@@ -195,8 +194,7 @@ is_value_in_local_box(int col, int row, int value) {
 }
 
 LocalBox
-SudokuBoard::
-get_local_box(int col, int row){
+SudokuBoard::get_local_box(int col, int row){
   LocalBox lb(col, row);
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
@@ -211,8 +209,7 @@ get_local_box(int col, int row){
 
 
 bool
-SudokuBoard::
-is_value_in_local_column(int col, int value) {
+SudokuBoard::is_value_in_local_column(int col, int value) {
   for (int j = 0; j < this->get_num_rows(); j++) {
     if (value == board_array[col][j].get_value())
       return false;
@@ -221,8 +218,7 @@ is_value_in_local_column(int col, int value) {
 }
 
 bool
-SudokuBoard::
-is_value_in_local_row(int row, int value) {
+SudokuBoard::is_value_in_local_row(int row, int value) {
   for (int i = 0; i < this->get_num_columns(); i++) {
     if (value == board_array[i][row].get_value())
       return false;
@@ -231,8 +227,7 @@ is_value_in_local_row(int row, int value) {
 }
 
 bool *
-SudokuBoard::
-get_valid_entries(int col, int row) {
+SudokuBoard::get_valid_entries(int col, int row) {
   bool *value_entries = new bool[9];
   for (int i = 0; i < 9; i++) {
     int value = i + 1;
@@ -243,8 +238,7 @@ get_valid_entries(int col, int row) {
 }
 
 bool
-SudokuBoard::
-is_solved() {
+SudokuBoard::is_solved() {
   for (int i = 0; i < this->get_num_rows(); i++) {
     for (int j = 0; j < this->get_num_columns(); j++) {
       if (this->board_array[i][j].get_value() == 0)
@@ -255,8 +249,7 @@ is_solved() {
 }
 
 ColRowVal
-SudokuBoard::
-any_valid_moves() {
+SudokuBoard::any_valid_moves() {
   for (int i = 0; i < this->get_num_rows(); i++) {
     for (int j = 0; j < this->get_num_columns(); j++) {
       bool *valid_entries = get_valid_entries(j, i);
@@ -288,7 +281,7 @@ std::vector<Cell> SudokuBoard::get_col(int col) {
 }
 
 void
-SudokuBoard::ensure_board_config_is_valid(const std::string &board_config) {
+SudokuBoard::is_board_string_valid(const std::string &board_config) {
   if (board_config.size() != 81) {
     std::string error_message =
             "Board config must be 81 characters long. (" +

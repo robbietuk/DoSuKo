@@ -22,6 +22,8 @@ public:
 
   void construct_board(const std::string &board_config);
 
+  std::string encode();
+
   //! Prints the board to the console.
   void print_board();
 
@@ -58,26 +60,25 @@ public:
   //! Returns a vector of values corresponding to the indicated column.
   std::vector<Cell> get_col(int col);
 
-protected:
-  static void ensure_board_config_is_valid(const std::string &board_config);
-
-private:
-  //! Insets the value at the given position in the board. THERE ARE NO ERROR CHECKS.
-  void do_update(int col, int row, int value);
-
-  bool is_free_position(int col, int row);
-
-  int get_board_value(int col, int row);
-
   bool is_value_in_local_box(int col, int row, int value);
 
   bool is_value_in_local_row(int row, int value);
 
   bool is_value_in_local_column(int col, int value);
 
+  bool is_free_position(int col, int row);
+
+  static void is_board_string_valid(const std::string &board_config);
+
+  Cell get_cell(int col, int row);
+
+private:
+  //! Insets the value at the given position in the board. THERE ARE NO ERROR CHECKS.
+  void do_update(int col, int row, int value);
+
 private:
   //! Board array
-  PossibleCell board_array[9][9]{};
+  Cell board_array[9][9];
 
   std::string is_valid_update_error_message;
 };
