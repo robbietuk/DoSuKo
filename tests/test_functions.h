@@ -17,8 +17,6 @@ public:
   void run_tests() override;
 
 private:
-  //! Test the get_singular_empty() function
-  bool test_get_singular_empty();
 
 };
 

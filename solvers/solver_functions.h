@@ -9,12 +9,12 @@
 #include <vector>
 #include "Cell.h"
 
-/*!
-    * @brief Returns the index of the first empty cell in the row. OR -1 if no empty cells are found.
-    * @param row The row to search.
-    * @return The index of the first empty cell in the row and the missing value.
-  */
-std::tuple<int, int> get_singular_empty(std::vector<Cell> entries);
+///*!
+//    * @brief Returns the index of the first empty cell in the row. OR -1 if no empty cells are found.
+//    * @param row The row to search.
+//    * @return The index of the first empty cell in the row and the missing val.
+//  */
+//std::tuple<int, int> get_singular_empty(std::vector<Cell> *cell_ptr);
 
 
 

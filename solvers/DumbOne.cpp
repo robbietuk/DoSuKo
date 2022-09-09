@@ -53,19 +53,18 @@ compute_next_move() {
 
 
 bool DumbOne::compute_singular_moves() {
-
-  std::vector<Cell> entries(9);
-  for (int i = 1; i <= 9; i++) {
-    entries = board_ptr->get_row(i);
-
-    int singular_empty_index, singular_empty_value;
-    std::tie(singular_empty_index, singular_empty_value)  = get_singular_empty(entries);
-    if (singular_empty_index == -1)
-      continue ;  // No singular empty cells found.
-    board_ptr->is_valid_cell_update(singular_empty_index, i, singular_empty_value);
-    performed_update = true;
-    return true;
-  }
+//  std::vector<Cell> entries(9);
+//  for (int i = 1; i <= 9; i++) {
+//    entries = board_ptr->get_row(i);
+//
+//    int singular_empty_index, singular_empty_value;
+//    std::tie(singular_empty_index, singular_empty_value)  = get_singular_empty(entries);
+//    if (singular_empty_index == -1)
+//      continue ;  // No singular empty cells found.
+//    board_ptr->is_valid_cell_update(singular_empty_index, i, singular_empty_value);
+//    performed_update = true;
+//    return true;
+//  }
   return false;
 }
 
