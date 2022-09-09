@@ -2,13 +2,11 @@
 // Created by Robert Twyman Skelly on 8/25/22.
 //
 
-#include "SudokuBoard.h"
 #include "ColRowVal.h"
 #include "LocalBox.h"
-#include "Cell.h"
+#include "SudokuBoard.h"
 #include <iostream>
 #include <vector>
-
 
 
 template<class CellType>
@@ -296,7 +294,7 @@ ColRowVal SudokuBoard<CellType>::any_valid_moves() {
 template<class CellType>
 std::vector<CellType *>
 SudokuBoard<CellType>::get_row(int row) {
-  std::vector<Cell*> row_vector;
+  std::vector<CellType *> row_vector;
   for (int col_iter = 0; col_iter < this->get_num_columns(); col_iter++) {
     row_vector.push_back(get_cell_ptr(row, col_iter));
   }
@@ -306,7 +304,7 @@ SudokuBoard<CellType>::get_row(int row) {
 template<class CellType>
 std::vector<CellType *>
 SudokuBoard<CellType>::get_col(int col) {
-  std::vector<Cell*> col_vector;
+  std::vector<CellType *> col_vector;
   for (int row_iter = 0; row_iter < this->get_num_rows(); row_iter++) {
     col_vector.push_back(get_cell_ptr(row_iter, col));
   }

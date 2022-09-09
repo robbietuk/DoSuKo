@@ -3,13 +3,13 @@
 //
 
 #include "DumbOne.h"
+#include "BasicCell.h"
 #include "ColRowVal.h"
 #include "solver_functions.h"
-#include "Cell.h"
 #include <vector>
 
 DumbOne::
-DumbOne(SudokuBoard<Cell> *board_ptr) {
+DumbOne(SudokuBoard<BasicCell> *board_ptr) {
     this->board_ptr = board_ptr;
     board_solved = this->board_ptr->is_solved();
     performed_update = false;
@@ -54,7 +54,7 @@ compute_next_move() {
 
 
 bool DumbOne::compute_singular_moves() {
-//  std::vector<Cell> entries(9);
+//  std::vector<BasicCell> entries(9);
 //  for (int i = 1; i <= 9; i++) {
 //    entries = board_ptr->get_row(i);
 //

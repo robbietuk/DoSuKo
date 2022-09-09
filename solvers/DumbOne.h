@@ -5,12 +5,12 @@
 #ifndef MAIN_CPP_DUMBONE_H
 #define MAIN_CPP_DUMBONE_H
 
+#include "BasicCell.h"
 #include "SudokuBoard.h"
-#include "Cell.h"
 
 class DumbOne {
 public:
-  explicit DumbOne(SudokuBoard<Cell> *board_ptr);
+  explicit DumbOne(SudokuBoard<BasicCell> *board_ptr);
   DumbOne();
   ~DumbOne() = default;
 
@@ -28,7 +28,7 @@ private:
 public:
 
 private:
-  SudokuBoard<Cell> *board_ptr;
+  SudokuBoard<BasicCell> *board_ptr;
   bool board_solved;
   bool performed_update;
 };

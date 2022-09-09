@@ -7,10 +7,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 ### GAME DIR and FILES VARIABLES ###
 set(GAME_DIR ${CMAKE_CURRENT_SOURCE_DIR}/game)
+list(APPEND GAME_INCLUDE_DIRS
+        ${GAME_DIR}
+        ${GAME_DIR}/Cell
+        )
 list(APPEND GAME_FILES
         ${GAME_DIR}/SudokuBoard.inl ${GAME_DIR}/SudokuBoard.h
         ${GAME_DIR}/LoadBoards.cpp ${GAME_DIR}/LoadBoards.h
-        ${GAME_DIR}/Cell.h)
+        ${GAME_DIR}/Cell/BasicCell.h ${GAME_DIR}/Cell/PotentialCell.h)
 
 ### SOLVERS DIR and FILES VARIABLES ###
 set(SOLVERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/solvers)
@@ -32,7 +36,7 @@ add_executable(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
-        ${GAME_DIR}
+        ${GAME_INCLUDE_DIRS}
         ${SOLVERS_DIR}
         )
 

@@ -15,7 +15,7 @@ add_executable(test_functions
 
 target_include_directories(test_functions
         PUBLIC
-        ${GAME_DIR}
+        ${GAME_INCLUDE_DIRS}
         ${SOLVERS_DIR}
         ${TESTS_DIR}
         )
@@ -33,7 +33,7 @@ add_executable(test_basic_cell_boards
 
 target_include_directories(test_basic_cell_boards
         PUBLIC
-        ${GAME_DIR}
+        ${GAME_INCLUDE_DIRS}
         ${SOLVERS_DIR}
         ${TESTS_DIR}
         )
@@ -51,7 +51,7 @@ add_executable(test_potential_cell_boards
 
 target_include_directories(test_potential_cell_boards
         PUBLIC
-        ${GAME_DIR}
+        ${GAME_INCLUDE_DIRS}
         ${SOLVERS_DIR}
         ${TESTS_DIR}
         )

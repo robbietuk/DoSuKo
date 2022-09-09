@@ -3,11 +3,11 @@
 //
 
 #include "solver_functions.h"
+#include "BasicCell.h"
 #include <vector>
-#include <Cell.h>
 
 //std::tuple<int, int>
-//get_singular_empty(std::vector<Cell> *cell_ptr) {
+//get_singular_empty(std::vector<BasicCell> *cell_ptr) {
 //  int empty_index = -1;  // -1 indicates no empty cells found or multiple empty cells found.
 //  int determining_value = 45; // This is (n)(n+1)/2, n=9 => 45. Used to determine the missing entry determining_value.
 //

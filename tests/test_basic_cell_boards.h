@@ -5,10 +5,10 @@
 #ifndef DOSUKO_TEST_BASIC_CELL_BOARDS_H
 #define DOSUKO_TEST_BASIC_CELL_BOARDS_H
 
+#include "BasicCell.h"
+#include "ExampleBoardStrings.h"
 #include "SudokuBoard.h"
 #include "testing.h"
-#include "Cell.h"
-#include "ExampleBoardStrings.h"
 
 struct known_possible_updates {
   int row;
@@ -38,16 +38,16 @@ private:
     //! Test specific problem board of `example_problem_string` configuration
     void _test_updates_on_problem_board();
 
-    //! Create board with all Cells having value 0 and insert all values (1-9) into each Cell.
+    //! Create board with all Cells having value 0 and insert all values (1-9) into each BasicCell.
     void _test_updates_on_zeros_board();
 
     void _test_updates_on_simple_board();
 
 
 
-    void _test_updates_know_possible_updates(SudokuBoard<Cell> board, std::vector<known_possible_updates> possible_updates);
-    void _test_update_is_allowed(SudokuBoard<Cell> board, int row, int col, std::vector<int> allowed_values);
-    void _test_update_is_disallowed(SudokuBoard<Cell> board, int row, int col, std::vector<int> disallowed_values);
+    void _test_updates_know_possible_updates(SudokuBoard<BasicCell> board, std::vector<known_possible_updates> possible_updates);
+    void _test_update_is_allowed(SudokuBoard<BasicCell> board, int row, int col, std::vector<int> allowed_values);
+    void _test_update_is_disallowed(SudokuBoard<BasicCell> board, int row, int col, std::vector<int> disallowed_values);
   //}
 
 public:

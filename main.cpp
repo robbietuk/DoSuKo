@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
   for (int i = 0; i < num_problems_loaded; i++) {
     ProblemSolutionSet problem_solution_set = board_configs.get_next_problems_set();
 
-    SudokuBoard<Cell> board(problem_solution_set.problem);
+    SudokuBoard<BasicCell> board(problem_solution_set.problem);
 
     if (!board_configs.is_problem_solution_combo_valid(problem_solution_set.problem,
                                                       problem_solution_set.solution)) {

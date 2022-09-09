@@ -3,8 +3,8 @@
 //
 
 #include "test_potential_cell_boards.h"
+#include "BasicCell.h"
 #include "SudokuBoard.h"
-#include "Cell.h"
 
 
 void
@@ -13,7 +13,8 @@ TestPotentialCellBoards::run_tests() {
 
 }
 
-void TestPotentialCellBoards::test_basic_possible_value_functionality() {
+void
+TestPotentialCellBoards::test_basic_possible_value_functionality() {
   // Construct board
   SudokuBoard<PotentialCell> zeros_board(EBS.zeros_board_string);
   PotentialCell * cell_ptr = zeros_board.get_cell_ptr(0, 0);

@@ -6,13 +6,13 @@
 #define DOSUKO_POTENTIALCELL_H
 
 //#include <vector>
-#include "Cell.h"
+#include "BasicCell.h"
 #include <set>
 
-class PotentialCell : public Cell {
+class PotentialCell : public BasicCell {
 public:
   PotentialCell(int value = 0)
-      : Cell(value) {
+      : BasicCell(value) {
     clear_possibles();
   }
 
