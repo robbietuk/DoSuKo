@@ -20,6 +20,7 @@ public:
 
 private:
   ExampleBoardStrings EBS;
+  void test_basic_possible_value_functionality();
 };
 
 #endif//DOSUKO_TEST_POTENTIAL_CELL_BOARDS_H

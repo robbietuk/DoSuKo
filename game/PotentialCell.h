@@ -5,8 +5,9 @@
 #ifndef DOSUKO_POTENTIALCELL_H
 #define DOSUKO_POTENTIALCELL_H
 
-#include <vector>
+//#include <vector>
 #include "Cell.h"
+#include <set>
 
 class PotentialCell : public Cell {
 public:
@@ -16,33 +17,23 @@ public:
   }
 
   void clear_possibles() {
-    possible_values.clear();
+    potential_values.clear();
   }
 
-  void add_possible_value(int value) {
-    for (auto it = possible_values.begin(); it != possible_values.end(); ++it) {
-      if (*it == value) {
-        return;
-      }
-    }
-    possible_values.push_back(value);
+  void add_potential_value(int value) {
+    potential_values.insert(value);
   }
 
   void remove_possible_value(int value) {
-    for (auto it = possible_values.begin(); it != possible_values.end(); ++it) {
-      if (*it == value) {
-        possible_values.erase(it);
-        break;  // there should not be more than one instance of value in possible_values
-      }
-    }
+    potential_values.erase(value);
   }
 
-  const std::vector<int> &get_possible_values() const {
-    return possible_values;
+  std::set<int> * get_potiential_values() {
+    return &potential_values;
   }
 
 private: // Variables
-    std::vector<int> possible_values;
+    std::set<int> potential_values;
 };
 
 #endif//DOSUKO_POTENTIALCELL_H
