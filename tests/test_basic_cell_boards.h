@@ -8,6 +8,7 @@
 #include "SudokuBoard.h"
 #include "testing.h"
 #include "Cell.h"
+#include "ExampleBoardStrings.h"
 
 struct known_possible_updates {
   int row;
@@ -31,10 +32,6 @@ private:
   void test_updates();
 
 private:
-  std::string example_problem_string;
-  std::string example_solution_string;
-  std::string zeros_board_string;
-  std::string simple_board_string;
 
   // Board update tests
   //{
@@ -53,7 +50,9 @@ private:
     void _test_update_is_disallowed(SudokuBoard<Cell> board, int row, int col, std::vector<int> disallowed_values);
   //}
 
-    void test_possible_cell();
+public:
+  ExampleBoardStrings EBS;
+
 };
 
 
