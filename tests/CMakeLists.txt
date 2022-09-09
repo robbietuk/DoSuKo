@@ -28,6 +28,7 @@ add_executable(test_basic_cell_boards
         ${GAME_FILES}
         ${SOLVERS_FILES}
         ${TESTS_FILES}
+        ExampleBoardStrings.h
         )
 
 target_include_directories(test_basic_cell_boards
