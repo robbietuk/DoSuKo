@@ -15,7 +15,7 @@ add_executable(test_functions
 
 target_include_directories(test_functions
         PUBLIC
-        ${GAME_DIR}
+        ${GAME_INCLUDE_DIRS}
         ${SOLVERS_DIR}
         ${TESTS_DIR}
         )
@@ -33,9 +33,27 @@ add_executable(test_basic_cell_boards
 
 target_include_directories(test_basic_cell_boards
         PUBLIC
-        ${GAME_DIR}
+        ${GAME_INCLUDE_DIRS}
         ${SOLVERS_DIR}
         ${TESTS_DIR}
         )
 
 add_test(test_basic_cell_boards test_basic_cell_boards)
+
+
+### test_possible_cell_boards
+add_executable(test_potential_cell_boards
+        test_potential_cell_boards.cpp
+        ${GAME_FILES}
+        ${SOLVERS_FILES}
+        ${TESTS_FILES}
+        )
+
+target_include_directories(test_potential_cell_boards
+        PUBLIC
+        ${GAME_INCLUDE_DIRS}
+        ${SOLVERS_DIR}
+        ${TESTS_DIR}
+        )
+
+add_test(test_potential_cell_boards test_potential_cell_boards)

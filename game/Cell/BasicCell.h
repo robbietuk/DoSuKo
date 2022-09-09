@@ -2,13 +2,13 @@
 // Created by Robert Twyman Skelly on 9/2/22.
 //
 
-#ifndef DOSUKO_CELL_H
-#define DOSUKO_CELL_H
+#ifndef DOSUKO_BASICCELL_H
+#define DOSUKO_BASICCELL_H
 
 
-class Cell {
+class BasicCell {
 public:
-  explicit Cell(int value = 0)
+  explicit BasicCell(int value = 0)
       : val(value) {};
 
   void set_value(int value) {
@@ -25,4 +25,4 @@ private: // Variables
 };
 
 
-#endif//DOSUKO_CELL_H
+#endif//DOSUKO_BASICCELL_H
