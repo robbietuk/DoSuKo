@@ -23,9 +23,11 @@ SudokuBoard::construct_board(const std::string &board_config) {
 
   bool valid_board = true;
   for (int i = 0; i < board_config.size(); i++) {
-    int value = board_config[i] - '0';
+    const int value = board_config[i] - '0';
+    const int col = i % 9;
+    const int row = i / 9;
     if (value != 0) {
-      if (!do_update_cell_if_valid(i / 9, i % 9, value)) {
+      if (!do_update_cell_if_valid(row, col, value)) {
         valid_board = false;
         break;
       }
@@ -43,10 +45,10 @@ SudokuBoard::construct_board(const std::string &board_config) {
 std::string
 SudokuBoard::encode() {
     std::string board_string;
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-        board_string += std::to_string(board_array[i][j].get_value());
-        }
+    for (int row = 0; row < 9; row++) {
+      for (int col = 0; col < 9; col++) {
+        board_string += std::to_string(get_cell_ptr(row, col)->get_value());
+      }
     }
     return board_string;
 }
@@ -61,18 +63,28 @@ SudokuBoard::reset_board_array() {
 }
 
 void
-SudokuBoard::print_board() {
-  for (auto &i: board_array) {// row
-    for (auto j : i) {          // element [row][col]
-      std::cout << j.get_value() << "  ";
+SudokuBoard::print_board_2D_visualisation() {
+  std::cout << "\n" <<  get_board_2D_visualisation();
+}
+
+std::string
+SudokuBoard::get_board_2D_visualisation() {
+  std::string visualise_board_string;
+  for (int row = 0; row < get_num_rows(); row++){
+    for (int col = 0; col < get_num_columns(); col++){
+      visualise_board_string += std::to_string(get_cell_ptr(row, col)->get_value()) + "  ";
     }
-    std::cout << std::endl;
+    visualise_board_string += "\n";
   }
+  return visualise_board_string;
 }
 
 std::string
 SudokuBoard::get_board_as_string_with_boarders() {
-
+#if 1
+  std::cerr << "get_board_as_string_with_boarders() has been disabled because bad." << std::endl;
+  return "";
+#else
   // This doesn't x_gap and num_x_character does not work but it is fine for now.
   const int x_gap = 3;
   const int num_x_character =
@@ -85,23 +97,24 @@ SudokuBoard::get_board_as_string_with_boarders() {
   const std::string boarder_vertical = " | ";
 
   std::string output;
-  for (int i = 0; i < this->get_num_columns(); i++) {
+  for (int i = 0; i < this->get_num_rows(); i++) {
     if (i % 3 == 0)
       output += "\n" + boarder_horizontal + "\n";
     else
       output += "\n";
 
-    for (int j = 0; j < this->get_num_rows(); j++) {
+    for (int j = 0; j < this->get_num_columns(); j++) {
       if (j % 3 == 0)
         output += boarder_vertical;
       else
         output += " ";
-      output += std::to_string(this->board_array[i][j].get_value());
+      output += std::to_string(this->board_array[i][j]->get_value());
     }
     output += boarder_vertical;
   }
   output += "\n" + boarder_horizontal + "\n";
   return output;
+#endif
 }
 
 int
@@ -114,93 +127,85 @@ SudokuBoard::get_num_columns() {
   return sizeof(board_array[0])/sizeof(board_array[0][0]);
 }
 
-bool
-SudokuBoard::do_update_cell_if_valid(int col, int row, int value) {
-  if (is_valid_cell_update(col, row, value)) {
-    do_update(col, row, value);
+bool SudokuBoard::do_update_cell_if_valid(int row, int col, int value) {
+  if (is_valid_cell_update(row, col, value)) {
+    do_update(row, col, value);
     return true;
   }
   return false;
 }
 
-void
-SudokuBoard::do_update(int col, int row, int value) {
-  board_array[col][row].set_value(value);
+void SudokuBoard::do_update(int row, int col, int value) {
+  get_cell_ptr(row, col)->set_value(value);
 }
 
-bool
-SudokuBoard::is_valid_cell_update(int col, int row, int value) {
+bool SudokuBoard::is_valid_cell_update(int row, int col, int value) {
 
   assert(value > 0 && value <= 9);
-
-  if (!this->is_free_position(col, row)){
-    is_valid_update_error_message = "Position is not free. \n"
-                                    "Current value:" + std::to_string(get_cell(col, row).get_value()) + "\n"
+  is_valid_update_error_message = "";
+  if (!this->is_free_position(row, col)){
+    is_valid_update_error_message += "Position is not free. \n"
+                                    "Current value:" + std::to_string(get_cell_ptr(row, col)->get_value()) + "\n"
                                     "Position: " + std::to_string(col) + "," + std::to_string(row) + "\n"
                                     "Trying to inset value: " + std::to_string(value) + "\n";
-    return false;
-  }
-  if (!this->is_value_in_local_box(col, row, value)) {
-    is_valid_update_error_message = "Value IS in local box. \n"
-                                    "Current value:" +
-                                    std::to_string(get_cell(col, row).get_value()) +
-                                    "\nPosition: " +
-                                    std::to_string(col) + "," + std::to_string(row) +
-                                    "\nTrying to inset value: " +
-                                    std::to_string(value) + "\n" +
-                                    get_board_as_string_with_boarders();
   }
 
-  if (!this->is_value_in_local_row(row, value)) {
-    is_valid_update_error_message = "Value is not in local row. \n"
-                                    "Current value:" + std::to_string(get_cell(col, row).get_value()) + "\n"
+  if (this->is_value_in_local_row(row, value)) {
+    is_valid_update_error_message += "Value is in local row. \n"
+                                    "Current value:" + std::to_string(get_cell_ptr(row, col)->get_value()) + "\n"
                                     "Position: " + std::to_string(col) + "," + std::to_string(row) + "\n";
-    return false;
   }
 
-  if (!this->is_value_in_local_column(col, value)){
-    is_valid_update_error_message = "Value is not in local column. \n"
-                                    "Current value:" + std::to_string(get_cell(col, row).get_value()) + "\n"
+  if (this->is_value_in_column(col, value)){
+    is_valid_update_error_message += "Value is in local column. \n"
+                                    "Current value:" + std::to_string(get_cell_ptr(row, col)->get_value()) + "\n"
                                     "Position: " + std::to_string(col) + "," + std::to_string(row) + "\n";
+  }
+
+  if (this->is_value_in_local_box(row, col, value)) {
+    is_valid_update_error_message += "Value is in local box. \n"
+                                     "Current value:" +
+                                     std::to_string(get_cell_ptr(row, col)->get_value()) +
+                                     "\nPosition: " +
+                                     std::to_string(col) + "," + std::to_string(row) +
+                                     "\nTrying to inset value: " +
+                                     std::to_string(value) + "\n";
+  }
+
+  if (!is_valid_update_error_message.empty()){
+    is_valid_update_error_message += get_board_2D_visualisation() + "\n";
     return false;
   }
 
-  is_valid_update_error_message = "";
   return true;
 }
 
-bool
-SudokuBoard::is_free_position(int col, int row) {
-  return board_array[col][row].get_value() == 0;
+bool SudokuBoard::is_free_position(int row, int col) {
+  const int test_value = get_cell_ptr(row, col)->get_value();
+  return test_value == 0;
 }
 
-Cell
-SudokuBoard::get_cell(int col, int row) {
-  return board_array[col][row];
+Cell *SudokuBoard::get_cell_ptr(int row, int col) {
+  return &board_array[row][col];
 }
 
-bool
-SudokuBoard::is_value_in_local_box(int col, int row, int value) {
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
-      int di = (row / 3) * 3 + i;// e.g. (5/3) * 3 = 3
-      int dj = (col / 3) * 3 + j;// need to divide (int) by 3 and multiply by 3,
-      int cell_value = board_array[di][dj].get_value();
-      if (value == cell_value)
-        return false;
-    }
-  }
-  return true;
+bool SudokuBoard::is_value_in_local_box(int row, int col, int value) {
+  const LocalBox lb = get_local_box_values(row, col);
+  for (auto & row : lb.local_box)
+    for (int cell : row)
+      if (cell == value)
+        return true;
+  return false;
 }
 
 LocalBox
-SudokuBoard::get_local_box(int col, int row){
+SudokuBoard::get_local_box_values(int row, int col) {
   LocalBox lb(col, row);
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
-      int di = (row / 3) * 3 + i;// e.g. (5/3) * 3 = 3
-      int dj = (col / 3) * 3 + j;// need to divide (int) by 3 and multiply by 3,
-      lb.local_box[i][j] = board_array[di][dj].get_value();
+  for (int lb_row = 0; lb_row < 3; lb_row++) {
+    for (int lb_col = 0; lb_col < 3; lb_col++) {
+      const int test_row = (row / 3) * 3 + lb_row;// e.g. (5/3) * 3 = 3
+      const int test_col = (col / 3) * 3 + lb_col;// need to divide (int) by 3 and multiply by 3,
+      lb.local_box[lb_row][lb_col] = get_cell_ptr(test_row, test_col)->get_value();
     }
   }
   return lb;
@@ -209,29 +214,31 @@ SudokuBoard::get_local_box(int col, int row){
 
 
 bool
-SudokuBoard::is_value_in_local_column(int col, int value) {
-  for (int j = 0; j < this->get_num_rows(); j++) {
-    if (value == board_array[col][j].get_value())
-      return false;
+SudokuBoard::is_value_in_column(int col, int value) {
+  for (int row = 0; row < this->get_num_rows(); row++) {
+    const int test_cell_value = get_cell_ptr(row, col)->get_value();
+    if (value == test_cell_value)
+      return true;
   }
-  return true;
+  return false;
 }
 
 bool
 SudokuBoard::is_value_in_local_row(int row, int value) {
-  for (int i = 0; i < this->get_num_columns(); i++) {
-    if (value == board_array[i][row].get_value())
-      return false;
+  for (int col = 0; col < this->get_num_columns(); col++) {
+    const int test_cell_value = get_cell_ptr(row, col)->get_value();
+    if (value == test_cell_value)
+      return true;
   }
-  return true;
+  return false;
 }
 
 bool *
-SudokuBoard::get_valid_entries(int col, int row) {
+SudokuBoard::get_valid_entries(int row, int col) {
   bool *value_entries = new bool[9];
   for (int i = 0; i < 9; i++) {
-    int value = i + 1;
-    value_entries[i] = is_valid_cell_update(col, row, value);
+    const int value = i + 1;
+    value_entries[i] = is_valid_cell_update(row, col, value);
   }
 
   return value_entries;
@@ -239,9 +246,9 @@ SudokuBoard::get_valid_entries(int col, int row) {
 
 bool
 SudokuBoard::is_solved() {
-  for (int i = 0; i < this->get_num_rows(); i++) {
-    for (int j = 0; j < this->get_num_columns(); j++) {
-      if (this->board_array[i][j].get_value() == 0)
+  for (int row = 0; row < this->get_num_rows(); row++) {
+    for (int col = 0; col < this->get_num_columns(); col++) {
+      if (get_cell_ptr(row, col)->get_value() == 0)
         return false;
     }
   }
@@ -250,32 +257,32 @@ SudokuBoard::is_solved() {
 
 ColRowVal
 SudokuBoard::any_valid_moves() {
-  for (int i = 0; i < this->get_num_rows(); i++) {
-    for (int j = 0; j < this->get_num_columns(); j++) {
-      bool *valid_entries = get_valid_entries(j, i);
-
+  for (int row = 0; row < this->get_num_rows(); row++) {
+    for (int col = 0; col < this->get_num_columns(); col++) {
+      bool *valid_entries = get_valid_entries(row, col);
       for (int val = 0; val < 9; val++) {
         if (valid_entries[val] == 1)
-          return ColRowVal{j, i, val + 1};
+          return ColRowVal{col, row, val + 1};
       }
     }
   }
   return ColRowVal{};
 }
 
-std::vector<Cell>
+std::vector<Cell *>
 SudokuBoard::get_row(int row) {
-  std::vector<Cell> row_vector;
-  for (int i = 0; i < this->get_num_columns(); i++) {
-    row_vector.push_back(this->board_array[i][row]);
+  std::vector<Cell*> row_vector;
+  for (int col_iter = 0; col_iter < this->get_num_columns(); col_iter++) {
+    row_vector.push_back(get_cell_ptr(row, col_iter));
   }
   return row_vector;
 }
 
-std::vector<Cell> SudokuBoard::get_col(int col) {
-  std::vector<Cell> col_vector;
-  for (int i = 0; i < this->get_num_rows(); i++) {
-    col_vector.push_back(this->board_array[col][i]);
+std::vector<Cell *>
+SudokuBoard::get_col(int col) {
+  std::vector<Cell*> col_vector;
+  for (int row_iter = 0; row_iter < this->get_num_rows(); row_iter++) {
+    col_vector.push_back(get_cell_ptr(row_iter, col));
   }
   return col_vector;
 }

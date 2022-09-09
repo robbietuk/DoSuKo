@@ -28,8 +28,8 @@ Example sudoku games can be found at: https://www.kaggle.com/datasets/rohanrao/s
 
 CURRENT AIMS
  - [ ] Implement a potential board. 
-   Basically the same as the Sudoku board, but with a list of potential values for each cell.
- - [ ] Implement compute potential values method for each row, column and local box.
+   Basically the same as the Sudoku board, but with a list of potential allowed_values for each cell.
+ - [ ] Implement compute potential allowed_values method for each row, column and local box.
  - [ ] Add timing. 
    - [ ] How may times did the algorithm have to search, and 
    - [ ] Profile different algorithms.
