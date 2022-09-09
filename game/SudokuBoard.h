@@ -5,12 +5,11 @@
 #ifndef DOSUKO_SUDOKUBOARD_H
 #define DOSUKO_SUDOKUBOARD_H
 
+#include "Cell.h"
 #include "ColRowVal.h"
 #include "LocalBox.h"
-#include "PossibleCell.h"
-#include "Cell.h"
+#include "PotentialCell.h"
 #include <iostream>
-
 
 
 template <class CellType>

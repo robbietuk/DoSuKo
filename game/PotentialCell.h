@@ -2,15 +2,15 @@
 // Created by Robert Twyman Skelly on 9/2/22.
 //
 
-#ifndef DOSUKO_POSSIBLECELL_H
-#define DOSUKO_POSSIBLECELL_H
+#ifndef DOSUKO_POTENTIALCELL_H
+#define DOSUKO_POTENTIALCELL_H
 
 #include <vector>
 #include "Cell.h"
 
-class PossibleCell : public Cell {
+class PotentialCell : public Cell {
 public:
-  PossibleCell(int value = 0)
+  PotentialCell(int value = 0)
       : Cell(value) {
     clear_possibles();
   }
@@ -45,4 +45,4 @@ private: // Variables
     std::vector<int> possible_values;
 };
 
-#endif//DOSUKO_POSSIBLECELL_H
+#endif//DOSUKO_POTENTIALCELL_H
