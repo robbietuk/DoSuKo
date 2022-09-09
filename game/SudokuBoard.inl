@@ -261,7 +261,6 @@ SudokuBoard<CellType>::get_valid_entries(int row, int col) {
     const int value = i + 1;
     value_entries[i] = is_valid_cell_update(row, col, value);
   }
-
   return value_entries;
 }
 

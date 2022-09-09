@@ -11,13 +11,15 @@ int main(int argc, char** argv) {
       return 1;
   }
 
+  int num_solved_boards = 0;
+
   LoadBoards board_configs(argv[1]);
 
   const int num_problems_loaded = board_configs.get_num_problems_loaded();
   for (int i = 0; i < num_problems_loaded; i++) {
     ProblemSolutionSet problem_solution_set = board_configs.get_next_problems_set();
 
-    SudokuBoard<BasicCell> board(problem_solution_set.problem);
+    SudokuBoard<PotentialCell> board(problem_solution_set.problem);
 
     if (!board_configs.is_problem_solution_combo_valid(problem_solution_set.problem,
                                                       problem_solution_set.solution)) {
@@ -27,6 +29,17 @@ int main(int argc, char** argv) {
       continue;
     }
     DumbOne dumb_one(&board);
+    dumb_one.solve_board();
+    if (dumb_one.get_board_solved()){
+      std::cout << "Solved!\n";
+      num_solved_boards++;
+    } else {
+      std::cout << "Not solved!\n";
+    }
+
+    dumb_one.get_board_ptr()->print_board_2D_visualisation();
   }
+
+    std::cout << "Solved " << num_solved_boards << " / " << num_problems_loaded << " boards.\n";
   return 0;
 }

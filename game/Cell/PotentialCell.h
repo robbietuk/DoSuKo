@@ -13,15 +13,19 @@ class PotentialCell : public BasicCell {
 public:
   PotentialCell(int value = 0)
       : BasicCell(value) {
-    clear_possibles();
+    clear_potential_values();
   }
 
-  void clear_possibles() {
+  void clear_potential_values() {
     potential_values.clear();
   }
 
   void add_potential_value(int value) {
     potential_values.insert(value);
+  }
+
+  void add_potential_values(std::set<int> pot_vals) {
+    this->potential_values.insert(pot_vals.begin(), pot_vals.end());
   }
 
   void remove_possible_value(int value) {

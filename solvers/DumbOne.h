@@ -5,12 +5,12 @@
 #ifndef MAIN_CPP_DUMBONE_H
 #define MAIN_CPP_DUMBONE_H
 
-#include "BasicCell.h"
+#include "PotentialCell.h"
 #include "SudokuBoard.h"
 
 class DumbOne {
 public:
-  explicit DumbOne(SudokuBoard<BasicCell> *board_ptr);
+  explicit DumbOne(SudokuBoard<PotentialCell> *board_ptr);
   DumbOne();
   ~DumbOne() = default;
 
@@ -18,19 +18,22 @@ public:
 
   bool get_board_solved() const { return board_solved; }
 
+  SudokuBoard<PotentialCell> * get_board_ptr() const { return board_ptr; }
+
 
 private:
   void compute_next_move();
 
-  bool compute_singular_moves();
 
 
 public:
 
 private:
-  SudokuBoard<BasicCell> *board_ptr;
+  SudokuBoard<PotentialCell> *board_ptr;
   bool board_solved;
   bool performed_update;
+  void evaluate_all_potential_moves();
+  std::set<int> get_set_of_potential_values(const int row, const int col);
 };
 
 

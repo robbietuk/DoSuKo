@@ -3,13 +3,13 @@
 //
 
 #include "DumbOne.h"
-#include "BasicCell.h"
+#include "PotentialCell.h"
 #include "ColRowVal.h"
 #include "solver_functions.h"
 #include <vector>
 
 DumbOne::
-DumbOne(SudokuBoard<BasicCell> *board_ptr) {
+DumbOne(SudokuBoard<PotentialCell> *board_ptr) {
     this->board_ptr = board_ptr;
     board_solved = this->board_ptr->is_solved();
     performed_update = false;
@@ -49,23 +49,40 @@ void
 DumbOne::
 compute_next_move() {
   performed_update = false;
-  compute_singular_moves();
+  evaluate_all_potential_moves();
 }
 
-
-bool DumbOne::compute_singular_moves() {
-//  std::vector<BasicCell> entries(9);
-//  for (int i = 1; i <= 9; i++) {
-//    entries = board_ptr->get_row(i);
-//
-//    int singular_empty_index, singular_empty_value;
-//    std::tie(singular_empty_index, singular_empty_value)  = get_singular_empty(entries);
-//    if (singular_empty_index == -1)
-//      continue ;  // No singular empty cells found.
-//    board_ptr->is_valid_cell_update(singular_empty_index, i, singular_empty_value);
-//    performed_update = true;
-//    return true;
-//  }
-  return false;
+void DumbOne::evaluate_all_potential_moves() {
+  for (int row = 0; row < 9; row++) {
+    for (int col = 0; col < 9; col++) {
+      PotentialCell * cell = board_ptr->get_cell_ptr(row, col);
+      if (cell->get_value() != 0) {
+        cell->clear_potential_values();
+        continue;
+      }
+      //cell is 0 value
+      //todo this should use set notation
+      std::set<int> pot_vals = get_set_of_potential_values(row, col);
+      if (pot_vals.size() == 1) {
+        //only one potential value
+        int value = *pot_vals.begin();
+        board_ptr->do_update_cell_if_valid(row, col, value);
+        performed_update = true;
+      }
+      else {
+        //more than one potential value
+        cell->add_potential_values(pot_vals);
+      }
+    }
+  }
 }
-
+std::set<int>
+DumbOne::get_set_of_potential_values(const int row, const int col) {
+  std::set<int> potential_values;
+  for (int i = 1; i <= 9; i++) {
+    if (board_ptr->is_valid_cell_update(row, col, i)) {
+      potential_values.insert(i);
+    }
+  }
+  return potential_values;
+}
