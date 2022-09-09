@@ -2,8 +2,8 @@
 // Created by Robert Twyman Skelly on 9/2/22.
 //
 
-#ifndef DOSUKO_TEST_BOARDS_H
-#define DOSUKO_TEST_BOARDS_H
+#ifndef DOSUKO_TEST_BASIC_CELL_BOARDS_H
+#define DOSUKO_TEST_BASIC_CELL_BOARDS_H
 
 #include "SudokuBoard.h"
 #include "testing.h"
@@ -16,10 +16,10 @@ struct known_possible_updates {
 };
 
 
-class TestBoards : public Testing {
+class TestBasicCellBoards : public Testing {
 
 public:
-  explicit TestBoards();
+  explicit TestBasicCellBoards();
 
 
   void run_tests() override;
@@ -56,4 +56,4 @@ private:
 };
 
 
-#endif//DOSUKO_TEST_BOARDS_H
+#endif//DOSUKO_TEST_BASIC_CELL_BOARDS_H

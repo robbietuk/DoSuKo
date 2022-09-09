@@ -3,13 +3,13 @@
 //
 
 
+#include "test_basic_cell_boards.h"
+#include "SudokuBoard.h"
 #include <iostream>
 #include <string>
-#include "test_boards.h"
-#include "SudokuBoard.h"
 
-TestBoards::TestBoards()
-    : Testing("TestBoards") {
+TestBasicCellBoards::TestBasicCellBoards()
+    : Testing("TestBasicCellBoards") {
   // Problem and solution for problem boards
   example_problem_string = "070000043040009610800634900094052000358460020000800530080070091902100005007040802";
   example_solution_string = "679518243543729618821634957794352186358461729216897534485276391962183475137945862";
@@ -25,15 +25,13 @@ TestBoards::TestBoards()
   simple_board_string[9] = '2';  // Add '2' to the 1st row, 0th column Cell (array starts at 0)
 }
 
-void 
-TestBoards::run_tests() {
+void TestBasicCellBoards::run_tests() {
   test_updates();
   test_board_is_completed();
   test_encoding_and_decoding();
 }
 
-void
-TestBoards::test_board_is_completed() {
+void TestBasicCellBoards::test_board_is_completed() {
 
   std::cout << "\n\tTesting board_is_completed()..." << std::endl;
   SudokuBoard problem_board(example_problem_string);
@@ -44,7 +42,7 @@ TestBoards::test_board_is_completed() {
     report_error("test_board_is_completed: The problem board IS reported as solved");
 
 }
-void TestBoards::test_encoding_and_decoding() {
+void TestBasicCellBoards::test_encoding_and_decoding() {
   std::cout << "\n\tTesting encoding and decoding()..." << std::endl;
   SudokuBoard solution_board(example_solution_string);
   std::string encoded_board_string = solution_board.encode();
@@ -55,16 +53,14 @@ void TestBoards::test_encoding_and_decoding() {
                  "\n\tREENCODED: " + encoded_board_string);
 }
 
-void
-TestBoards::test_updates() {
+void TestBasicCellBoards::test_updates() {
   std::cout << "\n\tTesting updates()..." << std::endl;
   _test_updates_on_zeros_board();
   _test_updates_on_simple_board();
   _test_updates_on_problem_board();
 }
 
-void
-TestBoards::_test_updates_on_problem_board() {
+void TestBasicCellBoards::_test_updates_on_problem_board() {
   SudokuBoard problem_board(example_problem_string);
   std::vector<known_possible_updates> possible_updates = {
           {0, 0,  // Allowed and disallowed allowed_values for cell (0,0)
@@ -78,8 +74,7 @@ TestBoards::_test_updates_on_problem_board() {
   _test_updates_know_possible_updates(problem_board, possible_updates);
 }
 
-void
-TestBoards::_test_updates_on_zeros_board(){
+void TestBasicCellBoards::_test_updates_on_zeros_board(){
   SudokuBoard zeros_board(zeros_board_string);
 
   // Create a vector of known_possible_updates for each Cell and assign all possible values
@@ -93,8 +88,7 @@ TestBoards::_test_updates_on_zeros_board(){
   _test_updates_know_possible_updates(zeros_board, possible_updates_vec);
 }
 
-void
-TestBoards::_test_updates_on_simple_board() {
+void TestBasicCellBoards::_test_updates_on_simple_board() {
   SudokuBoard board(simple_board_string);
 
 
@@ -108,8 +102,7 @@ TestBoards::_test_updates_on_simple_board() {
   _test_updates_know_possible_updates(board, possible_updates_vec);
 }
 
-void
-TestBoards::_test_updates_know_possible_updates(SudokuBoard board, std::vector<known_possible_updates> possible_updates) {
+void TestBasicCellBoards::_test_updates_know_possible_updates(SudokuBoard board, std::vector<known_possible_updates> possible_updates) {
 
   for (auto &possible_update : possible_updates) {
     _test_update_is_allowed(board, possible_update.row, possible_update.col, possible_update.allowed_values);
@@ -117,8 +110,7 @@ TestBoards::_test_updates_know_possible_updates(SudokuBoard board, std::vector<k
   }
 }
 
-void
-TestBoards::_test_update_is_allowed(SudokuBoard board, int row, int col, std::vector<int> allowed_values) {
+void TestBasicCellBoards::_test_update_is_allowed(SudokuBoard board, int row, int col, std::vector<int> allowed_values) {
   for (int value : allowed_values) {
     if (!board.is_valid_cell_update(row, col, value)){
       //Some error exists, lets diagnose it
@@ -141,8 +133,7 @@ TestBoards::_test_update_is_allowed(SudokuBoard board, int row, int col, std::ve
   }
 }
 
-void
-TestBoards::_test_update_is_disallowed(SudokuBoard board, int row, int col, std::vector<int> disallowed_values) {
+void TestBasicCellBoards::_test_update_is_disallowed(SudokuBoard board, int row, int col, std::vector<int> disallowed_values) {
   for (int value : disallowed_values){
     if (board.is_valid_cell_update(row, col, value)) {
       board.is_valid_cell_update(row, col, value);
@@ -158,7 +149,7 @@ TestBoards::_test_update_is_disallowed(SudokuBoard board, int row, int col, std:
 
 
 int main() {
-  TestBoards test_boards;
+  TestBasicCellBoards test_boards;
   test_boards.run_tests();
   test_boards.print_error_message();
   return test_boards.get_testOK();

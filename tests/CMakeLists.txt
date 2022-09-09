@@ -22,19 +22,19 @@ target_include_directories(test_functions
 
 add_test(test_functions test_functions)
 
-### test_boards
-add_executable(test_boards
-        test_boards.cpp
+### test_basic_cell_boards
+add_executable(test_basic_cell_boards
+        test_basic_cell_boards.cpp
         ${GAME_FILES}
         ${SOLVERS_FILES}
         ${TESTS_FILES}
         )
 
-target_include_directories(test_boards
+target_include_directories(test_basic_cell_boards
         PUBLIC
         ${GAME_DIR}
         ${SOLVERS_DIR}
         ${TESTS_DIR}
         )
 
-add_test(test_boards test_boards)
+add_test(test_basic_cell_boards test_basic_cell_boards)
