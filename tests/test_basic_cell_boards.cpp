@@ -8,23 +8,10 @@
 #include "Cell.h"
 #include <iostream>
 #include <string>
+#include "ExampleBoardStrings.h"
 
 TestBasicCellBoards::TestBasicCellBoards()
-    : Testing("TestBasicCellBoards") {
-  // Problem and solution for problem boards
-  example_problem_string = "070000043040009610800634900094052000358460020000800530080070091902100005007040802";
-  example_solution_string = "679518243543729618821634957794352186358461729216897534485276391962183475137945862";
-
-  // Create board with all zeros
-  zeros_board_string = "";
-  for (int i = 1; i < 82; i++)
-    zeros_board_string += "0";
-
-  // Construct simple board
-  simple_board_string = zeros_board_string;
-  simple_board_string[1] = '1';  // Add '1' to the 0th row, 1st column Cell (array starts at 0)
-  simple_board_string[9] = '2';  // Add '2' to the 1st row, 0th column Cell (array starts at 0)
-}
+    : Testing("TestBasicCellBoards") {}
 
 void TestBasicCellBoards::run_tests() {
   test_updates();
@@ -35,8 +22,8 @@ void TestBasicCellBoards::run_tests() {
 void TestBasicCellBoards::test_board_is_completed() {
 
   std::cout << "\n\tTesting board_is_completed()..." << std::endl;
-  SudokuBoard<Cell> problem_board(example_problem_string);
-  SudokuBoard<Cell> solution_board(example_solution_string);
+  SudokuBoard<Cell> problem_board(EBS.example_problem_string);
+  SudokuBoard<Cell> solution_board(EBS.example_solution_string);
   if (!solution_board.is_solved())
     report_error("test_board_is_completed: The solution board is reported as NOT solved");
   if (problem_board.is_solved())
@@ -45,12 +32,12 @@ void TestBasicCellBoards::test_board_is_completed() {
 }
 void TestBasicCellBoards::test_encoding_and_decoding() {
   std::cout << "\n\tTesting encoding and decoding()..." << std::endl;
-  SudokuBoard<Cell> solution_board(example_solution_string);
+  SudokuBoard<Cell> solution_board(EBS.example_solution_string);
   std::string encoded_board_string = solution_board.encode();
-  if (encoded_board_string != example_solution_string)
+  if (encoded_board_string != EBS.example_solution_string)
     report_error("test_encoding_and_decoding: The encoded board does not match the original solution board"
                  "\n\tORIGINAL:  " +
-                 example_solution_string +
+                 EBS.example_solution_string +
                  "\n\tREENCODED: " + encoded_board_string);
 }
 
@@ -62,7 +49,7 @@ void TestBasicCellBoards::test_updates() {
 }
 
 void TestBasicCellBoards::_test_updates_on_problem_board() {
-  SudokuBoard<Cell> problem_board(example_problem_string);
+  SudokuBoard<Cell> problem_board(EBS.example_problem_string);
   std::vector<known_possible_updates> possible_updates = {
           {0, 0,  // Allowed and disallowed allowed_values for cell (0,0)
            {1,2,5,6},
@@ -76,7 +63,7 @@ void TestBasicCellBoards::_test_updates_on_problem_board() {
 }
 
 void TestBasicCellBoards::_test_updates_on_zeros_board(){
-  SudokuBoard<Cell> zeros_board(zeros_board_string);
+  SudokuBoard<Cell> zeros_board(EBS.zeros_board_string);
 
   // Create a vector of known_possible_updates for each Cell and assign all possible values
   std::vector all_values = {1,2, 3, 4, 5, 6, 7, 8, 9};
@@ -90,7 +77,7 @@ void TestBasicCellBoards::_test_updates_on_zeros_board(){
 }
 
 void TestBasicCellBoards::_test_updates_on_simple_board() {
-  SudokuBoard<Cell> board(simple_board_string);
+  SudokuBoard<Cell> board(EBS.simple_board_string);
 
 
   std::vector<known_possible_updates> possible_updates_vec = {
