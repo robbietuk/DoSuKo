@@ -5,10 +5,11 @@
 #include "DumbOne.h"
 #include "ColRowVal.h"
 #include "solver_functions.h"
+#include "Cell.h"
 #include <vector>
 
 DumbOne::
-DumbOne(SudokuBoard *board_ptr) {
+DumbOne(SudokuBoard<Cell> *board_ptr) {
     this->board_ptr = board_ptr;
     board_solved = this->board_ptr->is_solved();
     performed_update = false;

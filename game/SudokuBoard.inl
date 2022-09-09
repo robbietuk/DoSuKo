@@ -5,22 +5,25 @@
 #include "SudokuBoard.h"
 #include "ColRowVal.h"
 #include "LocalBox.h"
+#include "Cell.h"
 #include <iostream>
 #include <vector>
 
 
-SudokuBoard::SudokuBoard() {}
 
-SudokuBoard::SudokuBoard(const std::string &board_config) {
+template<class CellType>
+SudokuBoard<CellType>::SudokuBoard() = default;
+
+template<class CellType>
+SudokuBoard<CellType>::SudokuBoard(const std::string &board_config) {
   construct_board(board_config);
 }
 
+template<class CellType>
 void
-SudokuBoard::construct_board(const std::string &board_config) {
+SudokuBoard<CellType>::construct_board(const std::string &board_config) {
   is_board_string_valid(board_config);
-
   reset_board_array();
-
   bool valid_board = true;
   for (int i = 0; i < board_config.size(); i++) {
     const int value = board_config[i] - '0';
@@ -42,8 +45,9 @@ SudokuBoard::construct_board(const std::string &board_config) {
   }
 }
 
+template<class CellType>
 std::string
-SudokuBoard::encode() {
+SudokuBoard<CellType>::encode() {
     std::string board_string;
     for (int row = 0; row < 9; row++) {
       for (int col = 0; col < 9; col++) {
@@ -53,8 +57,9 @@ SudokuBoard::encode() {
     return board_string;
 }
 
+template<class CellType>
 void
-SudokuBoard::reset_board_array() {
+SudokuBoard<CellType>::reset_board_array() {
   for (auto &row : board_array) {
     for (auto &cell : row) {
       cell.set_value(0);
@@ -62,13 +67,15 @@ SudokuBoard::reset_board_array() {
   }
 }
 
+template<class CellType>
 void
-SudokuBoard::print_board_2D_visualisation() {
+SudokuBoard<CellType>::print_board_2D_visualisation() {
   std::cout << "\n" <<  get_board_2D_visualisation();
 }
 
+template<class CellType>
 std::string
-SudokuBoard::get_board_2D_visualisation() {
+SudokuBoard<CellType>::get_board_2D_visualisation() {
   std::string visualise_board_string;
   for (int row = 0; row < get_num_rows(); row++){
     for (int col = 0; col < get_num_columns(); col++){
@@ -79,8 +86,9 @@ SudokuBoard::get_board_2D_visualisation() {
   return visualise_board_string;
 }
 
+template<class CellType>
 std::string
-SudokuBoard::get_board_as_string_with_boarders() {
+SudokuBoard<CellType>::get_board_as_string_with_boarders() {
 #if 1
   std::cerr << "get_board_as_string_with_boarders() has been disabled because bad." << std::endl;
   return "";
@@ -117,17 +125,20 @@ SudokuBoard::get_board_as_string_with_boarders() {
 #endif
 }
 
+template<class CellType>
 int
-SudokuBoard::get_num_rows() {
+SudokuBoard<CellType>::get_num_rows() {
   return sizeof(board_array)/sizeof(board_array[0]);
 }
 
+template<class CellType>
 int
-SudokuBoard::get_num_columns() {
+SudokuBoard<CellType>::get_num_columns() {
   return sizeof(board_array[0])/sizeof(board_array[0][0]);
 }
 
-bool SudokuBoard::do_update_cell_if_valid(int row, int col, int value) {
+template<class CellType>
+bool SudokuBoard<CellType>::do_update_cell_if_valid(int row, int col, int value) {
   if (is_valid_cell_update(row, col, value)) {
     do_update(row, col, value);
     return true;
@@ -135,11 +146,15 @@ bool SudokuBoard::do_update_cell_if_valid(int row, int col, int value) {
   return false;
 }
 
-void SudokuBoard::do_update(int row, int col, int value) {
+template<class CellType>
+void
+SudokuBoard<CellType>::do_update(int row, int col, int value) {
   get_cell_ptr(row, col)->set_value(value);
 }
 
-bool SudokuBoard::is_valid_cell_update(int row, int col, int value) {
+template<class CellType>
+bool
+SudokuBoard<CellType>::is_valid_cell_update(int row, int col, int value) {
 
   assert(value > 0 && value <= 9);
   is_valid_update_error_message = "";
@@ -180,16 +195,22 @@ bool SudokuBoard::is_valid_cell_update(int row, int col, int value) {
   return true;
 }
 
-bool SudokuBoard::is_free_position(int row, int col) {
+template<class CellType>
+bool
+SudokuBoard<CellType>::is_free_position(int row, int col) {
   const int test_value = get_cell_ptr(row, col)->get_value();
   return test_value == 0;
 }
 
-Cell *SudokuBoard::get_cell_ptr(int row, int col) {
+template<class CellType>
+CellType *
+SudokuBoard<CellType>::get_cell_ptr(int row, int col) {
   return &board_array[row][col];
 }
 
-bool SudokuBoard::is_value_in_local_box(int row, int col, int value) {
+template<class CellType>
+bool
+SudokuBoard<CellType>::is_value_in_local_box(int row, int col, int value) {
   const LocalBox lb = get_local_box_values(row, col);
   for (auto & row : lb.local_box)
     for (int cell : row)
@@ -198,8 +219,9 @@ bool SudokuBoard::is_value_in_local_box(int row, int col, int value) {
   return false;
 }
 
+template<class CellType>
 LocalBox
-SudokuBoard::get_local_box_values(int row, int col) {
+SudokuBoard<CellType>::get_local_box_values(int row, int col) {
   LocalBox lb(col, row);
   for (int lb_row = 0; lb_row < 3; lb_row++) {
     for (int lb_col = 0; lb_col < 3; lb_col++) {
@@ -211,10 +233,9 @@ SudokuBoard::get_local_box_values(int row, int col) {
   return lb;
 }
 
-
-
+template<class CellType>
 bool
-SudokuBoard::is_value_in_column(int col, int value) {
+SudokuBoard<CellType>::is_value_in_column(int col, int value) {
   for (int row = 0; row < this->get_num_rows(); row++) {
     const int test_cell_value = get_cell_ptr(row, col)->get_value();
     if (value == test_cell_value)
@@ -223,8 +244,9 @@ SudokuBoard::is_value_in_column(int col, int value) {
   return false;
 }
 
+template<class CellType>
 bool
-SudokuBoard::is_value_in_local_row(int row, int value) {
+SudokuBoard<CellType>::is_value_in_local_row(int row, int value) {
   for (int col = 0; col < this->get_num_columns(); col++) {
     const int test_cell_value = get_cell_ptr(row, col)->get_value();
     if (value == test_cell_value)
@@ -233,8 +255,9 @@ SudokuBoard::is_value_in_local_row(int row, int value) {
   return false;
 }
 
+template<class CellType>
 bool *
-SudokuBoard::get_valid_entries(int row, int col) {
+SudokuBoard<CellType>::get_valid_entries(int row, int col) {
   bool *value_entries = new bool[9];
   for (int i = 0; i < 9; i++) {
     const int value = i + 1;
@@ -244,8 +267,9 @@ SudokuBoard::get_valid_entries(int row, int col) {
   return value_entries;
 }
 
+template<class CellType>
 bool
-SudokuBoard::is_solved() {
+SudokuBoard<CellType>::is_solved() {
   for (int row = 0; row < this->get_num_rows(); row++) {
     for (int col = 0; col < this->get_num_columns(); col++) {
       if (get_cell_ptr(row, col)->get_value() == 0)
@@ -255,8 +279,8 @@ SudokuBoard::is_solved() {
   return true;
 }
 
-ColRowVal
-SudokuBoard::any_valid_moves() {
+template<class CellType>
+ColRowVal SudokuBoard<CellType>::any_valid_moves() {
   for (int row = 0; row < this->get_num_rows(); row++) {
     for (int col = 0; col < this->get_num_columns(); col++) {
       bool *valid_entries = get_valid_entries(row, col);
@@ -269,8 +293,9 @@ SudokuBoard::any_valid_moves() {
   return ColRowVal{};
 }
 
-std::vector<Cell *>
-SudokuBoard::get_row(int row) {
+template<class CellType>
+std::vector<CellType *>
+SudokuBoard<CellType>::get_row(int row) {
   std::vector<Cell*> row_vector;
   for (int col_iter = 0; col_iter < this->get_num_columns(); col_iter++) {
     row_vector.push_back(get_cell_ptr(row, col_iter));
@@ -278,8 +303,9 @@ SudokuBoard::get_row(int row) {
   return row_vector;
 }
 
-std::vector<Cell *>
-SudokuBoard::get_col(int col) {
+template<class CellType>
+std::vector<CellType *>
+SudokuBoard<CellType>::get_col(int col) {
   std::vector<Cell*> col_vector;
   for (int row_iter = 0; row_iter < this->get_num_rows(); row_iter++) {
     col_vector.push_back(get_cell_ptr(row_iter, col));
@@ -287,8 +313,9 @@ SudokuBoard::get_col(int col) {
   return col_vector;
 }
 
+template<class CellType>
 void
-SudokuBoard::is_board_string_valid(const std::string &board_config) {
+SudokuBoard<CellType>::is_board_string_valid(const std::string &board_config) {
   if (board_config.size() != 81) {
     std::string error_message =
             "Board config must be 81 characters long. (" +

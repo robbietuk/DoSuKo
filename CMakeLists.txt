@@ -8,7 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 ### GAME DIR and FILES VARIABLES ###
 set(GAME_DIR ${CMAKE_CURRENT_SOURCE_DIR}/game)
 list(APPEND GAME_FILES
-        ${GAME_DIR}/SudokuBoard.cpp ${GAME_DIR}/SudokuBoard.h
+        ${GAME_DIR}/SudokuBoard.inl ${GAME_DIR}/SudokuBoard.h
         ${GAME_DIR}/LoadBoards.cpp ${GAME_DIR}/LoadBoards.h
         ${GAME_DIR}/Cell.h)
 

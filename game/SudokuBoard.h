@@ -8,15 +8,16 @@
 #include "ColRowVal.h"
 #include "LocalBox.h"
 #include "PossibleCell.h"
+#include "Cell.h"
 #include <iostream>
 
 
+
+template <class CellType>
 class SudokuBoard {
 public:
   SudokuBoard();
   explicit SudokuBoard(const std::string &board_config);
-
-  ~SudokuBoard() = default;
 
   void reset_board_array();
 
@@ -55,10 +56,10 @@ public:
   LocalBox get_local_box_values(int row, int col);
 
   //! Returns a vector of allowed_values corresponding to the indicated row.
-  std::vector<Cell *> get_row(int row);
+  std::vector<CellType *> get_row(int row);
 
   //! Returns a vector of allowed_values corresponding to the indicated column.
-  std::vector<Cell *> get_col(int col);
+  std::vector<CellType *> get_col(int col);
 
   bool is_value_in_local_box(int row, int col, int value);
 
@@ -70,7 +71,7 @@ public:
 
   static void is_board_string_valid(const std::string &board_config);
 
-  Cell *get_cell_ptr(int row, int col);
+  CellType * get_cell_ptr(int row, int col);
 
 private:
   //! Insets the value at the given position in the board. THERE ARE NO ERROR CHECKS.
@@ -78,11 +79,12 @@ private:
 
 private:
   //! Board array
-  Cell board_array[9][9];
+  CellType board_array[9][9];
 
   std::string is_valid_update_error_message;
   std::string get_board_2D_visualisation();
 };
 
+#include "SudokuBoard.inl"
 
 #endif //DOSUKO_SUDOKUBOARD_H

@@ -7,6 +7,7 @@
 
 #include "SudokuBoard.h"
 #include "testing.h"
+#include "Cell.h"
 
 struct known_possible_updates {
   int row;
@@ -47,9 +48,9 @@ private:
 
 
 
-    void _test_updates_know_possible_updates(SudokuBoard board, std::vector<known_possible_updates> possible_updates);
-    void _test_update_is_allowed(SudokuBoard board, int row, int col, std::vector<int> allowed_values);
-    void _test_update_is_disallowed(SudokuBoard board, int row, int col, std::vector<int> disallowed_values);
+    void _test_updates_know_possible_updates(SudokuBoard<Cell> board, std::vector<known_possible_updates> possible_updates);
+    void _test_update_is_allowed(SudokuBoard<Cell> board, int row, int col, std::vector<int> allowed_values);
+    void _test_update_is_disallowed(SudokuBoard<Cell> board, int row, int col, std::vector<int> disallowed_values);
   //}
 
     void test_possible_cell();

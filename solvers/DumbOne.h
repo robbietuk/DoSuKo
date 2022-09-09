@@ -6,10 +6,11 @@
 #define MAIN_CPP_DUMBONE_H
 
 #include "SudokuBoard.h"
+#include "Cell.h"
 
 class DumbOne {
 public:
-  explicit DumbOne(SudokuBoard *board_ptr);
+  explicit DumbOne(SudokuBoard<Cell> *board_ptr);
   DumbOne();
   ~DumbOne() = default;
 
@@ -27,7 +28,7 @@ private:
 public:
 
 private:
-  SudokuBoard *board_ptr;
+  SudokuBoard<Cell> *board_ptr;
   bool board_solved;
   bool performed_update;
 };
