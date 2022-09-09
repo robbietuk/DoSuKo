@@ -9,19 +9,19 @@
 class Cell {
 public:
   explicit Cell(int value = 0)
-      : value(value) {};
+      : val(value) {};
 
-  void set_value(int val) {
-    value = val;
+  void set_value(int value) {
+    val = value;
   }
 
   int get_value() const {
-    return value;
+    return val;
   }
 
 
 private: // Variables
-  int value;
+  int val;
 };
 
 
