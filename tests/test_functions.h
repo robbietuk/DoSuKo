@@ -17,6 +17,7 @@ public:
   void run_tests() override;
 
 private:
+  void test_set_diff();
 
 };
 

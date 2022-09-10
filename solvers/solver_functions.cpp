@@ -3,8 +3,6 @@
 //
 
 #include "solver_functions.h"
-#include "BasicCell.h"
-#include <vector>
 
 //std::tuple<int, int>
 //get_singular_empty(std::vector<BasicCell> *cell_ptr) {
@@ -22,3 +20,12 @@
 //  }
 //  return std::make_tuple(empty_index, determining_value);
 //}
+
+std::set<int>
+compute_set_diff(std::set<int> set1, std::set<int> set2) {
+  std::set<int> result;
+  std::set_difference(set1.begin(), set1.end(),
+                      set2.begin(), set2.end(),
+                      std::inserter(result, result.begin()));
+  return result;
+}
