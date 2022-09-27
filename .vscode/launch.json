@@ -1,0 +1,30 @@
+{
+    "configurations": [
+    {
+        "name": "Launch DumbOneSolving",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/build/Debug/DumbOneSolving",
+        "args": ["/Users/rts/devel/DoSuKo/examples/example500.csv"],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": false,
+        "MIMode": "lldb",
+        "preLaunchTask": "cmake and build"
+    },
+    {
+        "name": "Launch DumbTwoSolving",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/build/Debug/DumbTwoSolving",
+        "args": ["/Users/rts/devel/DoSuKo/examples/example500.csv"],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": false,
+        "MIMode": "lldb",
+        "preLaunchTask": "cmake and build"
+    }
+    ],
+}

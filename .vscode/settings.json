@@ -1,0 +1,10 @@
+{
+    // The directory where CMake build files will go.
+	"cmake.buildDirectory": "${workspaceFolder}/build/${buildType}",
+    // The directory where CMake installed files will go.
+    "cmake.installPrefix": "${workspaceFolder}/install/${buildType}",
+    "files.associations": {
+        "ostream": "cpp",
+        "set": "cpp"
+    },
+}
