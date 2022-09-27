@@ -22,7 +22,7 @@ TestPotentialCellBoards::test_basic_possible_value_functionality() {
   // Add 2 and 3 to possible values
   cell_ptr->add_potential_value(2);
   cell_ptr->add_potential_value(3);
-  std::set<int> * potential_values_ptr = cell_ptr->get_potiential_values();
+  std::set<int> * potential_values_ptr = cell_ptr->get_potiential_values_ptr();
   if (potential_values_ptr->size() != 2)
     report_error("test_updates: The number of possible values for cell (0,0) should be, but IS NOT, 2.");
 

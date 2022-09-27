@@ -32,7 +32,7 @@ public:
     potential_values.erase(value);
   }
 
-  std::set<int> * get_potiential_values() {
+  std::set<int> *get_potiential_values_ptr() {
     return &potential_values;
   }
 

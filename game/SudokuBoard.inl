@@ -232,6 +232,22 @@ SudokuBoard<CellType>::get_local_box_values(int row, int col) {
 }
 
 template<class CellType>
+std::vector<CellType *>
+SudokuBoard<CellType>::get_local_box_cells(const int row, const int col) {
+  std::vector<CellType *> local_box_cells(9);
+  int i = 0;
+  for (int lb_row = 0; lb_row < 3; lb_row++) {
+    for (int lb_col = 0; lb_col < 3; lb_col++) {
+      const int test_row = (row / 3) * 3 + lb_row;// e.g. (5/3) * 3 = 3
+      const int test_col = (col / 3) * 3 + lb_col;// need to divide (int) by 3 and multiply by 3,
+      local_box_cells[i] = get_cell_ptr(test_row, test_col);
+      i++;
+    }
+  }
+  return local_box_cells;
+}
+
+template<class CellType>
 bool
 SudokuBoard<CellType>::is_value_in_column(int col, int value) {
   for (int row = 0; row < this->get_num_rows(); row++) {

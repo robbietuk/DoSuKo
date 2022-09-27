@@ -54,6 +54,8 @@ public:
   //! Returns a local box object the col,row combo is in.
   LocalBox get_local_box_values(int row, int col);
 
+  std::vector<CellType *> get_local_box_cells(const int row, const int col);
+
   //! Returns a vector of allowed_values corresponding to the indicated row.
   std::vector<CellType *> get_row(int row);
 
