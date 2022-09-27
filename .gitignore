@@ -3,3 +3,5 @@ cmake-build-debug-coverage
 .idea
 .DS_Store
 examples/sudoku.csv
+
+build/
