@@ -5,12 +5,12 @@
 #include "test_potential_cell_boards.h"
 #include "BasicCell.h"
 #include "SudokuBoard.h"
+#include "solver_functions.h"
 
 
 void
 TestPotentialCellBoards::run_tests() {
   test_basic_possible_value_functionality();
-
 }
 
 void

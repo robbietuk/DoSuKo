@@ -19,6 +19,7 @@ list(APPEND GAME_FILES
 ### SOLVERS DIR and FILES VARIABLES ###
 set(SOLVERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/solvers)
 list(APPEND SOLVERS_FILES
+
         ${SOLVERS_DIR}/DumbOne.cpp ${SOLVERS_DIR}/DumbOne.h
         ${SOLVERS_DIR}/solver_functions.cpp ${SOLVERS_DIR}/solver_functions.h)
 

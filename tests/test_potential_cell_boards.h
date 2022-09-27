@@ -6,8 +6,9 @@
 #define DOSUKO_TEST_POTENTIAL_CELL_BOARDS_H
 
 
-#include "testing.h"
 #include "ExampleBoardStrings.h"
+#include "testing.h"
+#include <set>
 
 class TestPotentialCellBoards : public Testing {
 public:
@@ -21,6 +22,8 @@ public:
 private:
   ExampleBoardStrings EBS;
   void test_basic_possible_value_functionality();
+
+
 };
 
 #endif//DOSUKO_TEST_POTENTIAL_CELL_BOARDS_H

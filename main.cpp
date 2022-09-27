@@ -1,7 +1,7 @@
 
+#include "DumbOne.h"
 #include "LoadBoards.h"
 #include "SudokuBoard.h"
-#include "DumbOne.h"
 #include <iostream>
 
 
@@ -30,6 +30,8 @@ int main(int argc, char **argv) {
                 << i << ": " << problem_solution_set.solution << "\n";
       continue;
     }
+
+    // Solve the board
     DumbOne dumb_one(&board);
     dumb_one.solve_board();
 
@@ -56,5 +58,4 @@ int main(int argc, char **argv) {
   }
   std::cout << "Solved " << num_solved_boards << " / " << num_problems_loaded << " boards.\n";
   return 0;
-
 }
