@@ -28,18 +28,33 @@ set(TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
 
 
-### DoSuKo executable ###
-add_executable(${PROJECT_NAME}
-        main.cpp
+### DoSuKo DumbOneSolving executable ###
+add_executable(DumbOneSolving
+        DumbOneSolving.cpp
         ${GAME_FILES}
         ${SOLVERS_FILES}
         )
 
-target_include_directories(${PROJECT_NAME}
+target_include_directories(DumbOneSolving
+        PUBLIC
+        ${GAME_INCLUDE_DIRS}
+        ${SOLVERS_DIR}
+)
+
+### DoSuKo DumbTwoSolving executable ###
+add_executable(DumbTwoSolving
+        DumbTwoSolving.cpp
+        ${GAME_FILES}
+        ${SOLVERS_FILES}
+)
+
+target_include_directories(DumbTwoSolving
         PUBLIC
         ${GAME_INCLUDE_DIRS}
         ${SOLVERS_DIR}
         )
+
+
 
 ### TESTS ###
 enable_testing()
