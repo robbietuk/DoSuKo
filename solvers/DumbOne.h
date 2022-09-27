@@ -14,26 +14,29 @@ public:
   DumbOne();
   ~DumbOne() = default;
 
+
+public: // methods
   void solve_board();
 
-  bool get_board_solved() const { return board_solved; }
+  bool is_board_marked_as_solved() const { return board_solved; }
 
   SudokuBoard<PotentialCell> * get_board_ptr() const { return board_ptr; }
 
 
-private:
+private: // methods
   void compute_next_move();
+  void evaluate_all_potential_moves_and_apply_singular_values();
+//  void compute_stalemate_split();
+  void compute_logical_set_difference_options();
+  std::set<int> compute_set_of_potential_values(const int row, const int col);
 
+public:  // variables
 
-
-public:
-
-private:
+private:// variables
   SudokuBoard<PotentialCell> *board_ptr;
   bool board_solved;
   bool performed_update;
-  void evaluate_all_potential_moves();
-  std::set<int> get_set_of_potential_values(const int row, const int col);
+
 };
 
 
